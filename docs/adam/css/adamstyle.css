@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Domine&display=swap");
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* CSS Button */
+.btn-custom { 
+  background-color: #5B9BD5 !important;
+  border-color: #5B9BD5 !important;
+  color: white !important;
+}
+
+.btn-custom:hover {
+  background-color: #4a8ac5 !important;
+  border-color: #4a8ac5 !important;
+  color: white!important;
+}
+
+
+/* CSS for header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 70px;
+  background-color: #fff;
+  
+
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header .logo img {
+  height: 100px;
+  object-fit: contain;
+}
+.nav-items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  margin-right: 20px;
+  
+}
+
+.nav-items a {
+  text-decoration: none;
+  color: #000;
+  padding: 35px 20px;
+}
+
+
+
+.intro button {
+  background-color: #ff0011;
+  color: #fff;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4)
+}
+
+.achievements {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px 80px;
+}
+
+.achievements .work {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.achievements .work i {
+  width: fit-content;
+  font-size: 50px;
+  color: #333333;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  padding: 12px;
+}
+
+.achievements .work .work-heading {
+  font-size: 20px;
+  color: #333333;
+  text-transform: uppercase;
+  margin: 10px 0;
+}
+
+.achievements .work .work-text {
+  font-size: 15px;
+  color: #585858;
+  margin: 10px 0;
+}
+.page-item .page-link {
+    color: #000 !important;
+}
+
+
+
+/* CSS for footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border-top: 1.5px solid black;
+  padding: 20px 80px;
+}
+
+.footer-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.footer-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.links span {
+  font-size: 14px;        
+  font-weight: 700;  
+  color: #000000;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.links a {
+  text-decoration: none;
+  color: #000000;
+  padding: 5px 0;
+}
+
+.footer .copy {
+  color: #000000;
+  margin-top: 10px;
+  font-weight: 700;         
+  font-size: 14px;
+}
+
+form {
+  width: 60%;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #D9D9D9;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(8, 188, 219, 0.4);
+}
+
+label, input, textarea {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+input[type="text"], textarea, input[type="file"] {
+  background-color: #fff;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+input[type="submit"] {
+  background-color: #5B9BD5;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: auto;
+}
+
+input[type="submit"]:hover {
+  background-color: #5B9BD5;
+  box-shadow: 0 0 10px #5B9BD5;
+}
+
+.validation-errors {
+  color: #ff5555;
+  margin-top: 20px;
+  background-color: #330000;
+  padding: 15px;
+  border-radius: 5px;
+}
