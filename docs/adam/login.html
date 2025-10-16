@@ -26,7 +26,7 @@
       <a href="index.html">Home</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
-      <a href="#">Register</a>
+      <a href="register.html">Register</a>
       <a href="login.html" style="color: rgb(0, 0, 0);">Sign-In</a>
 
       <div class="icon-button">
@@ -43,44 +43,63 @@
   <main>
     <h1 class="center-text" style="text-align:center; margin-top:40px; color:#5B9BD5; text-transform:uppercase;">Login</h1>
 
-    <form action="#" method="post" style="background-color:#D9D9D9; width:400px; margin:50px auto; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(11, 135, 207, 0.2); color:white;">
-      <label for="Username">User Name:</label>
+    <form action="#" method="post" style="background-color:#D9D9D9; width:400px; margin:50px auto; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(11, 135, 207, 0.2);">
+      
+      <label for="Username" style="color:#000;">User Name:</label>
       <input type="text" name="UserName" id="Username" class="form-control mb-3" placeholder="Enter your username">
 
-      <label for="Password">Password:</label>
-      <input type="password" name="Password" id="Password" class="form-control mb-4" placeholder="Enter your password">
+      <label for="Password" style="color:#000;">Password:</label>
+      <input type="password" name="Password" id="Password" class="form-control mb-2" placeholder="Enter your password">
 
-      <input type="submit" value="Submit" class="btn btn-custom w-100">
+      <!-- Forgot Password Link -->
+      <div style="text-align:right; margin-bottom:20px;">
+        <a href="forgot-password.html" style="color:#0078d4; font-size:0.9rem; text-decoration:none;">Forgot Password?</a>
+      </div>
+
+      <input type="submit" value="Sign In" class="btn btn-primary w-100" style="background-color:#0078d4; border:none; border-radius:6px;">
+
+      <!-- Create Account Button -->
+      <div class="text-center mt-3">
+        <span style="color:#000;">Don’t have an account?</span><br>
+        <a href="register.html" class="btn btn-outline-primary mt-2 w-100" style="border-radius:6px;">Create Account</a>
+      </div>
     </form>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-left">
-      <h4 style="color: black;">
-        <img src="image/LogoComputer.png" alt="logo" style="height: 100px; object-fit: contain;">
-      </h4>
-      <div class="copy">© 2025 TUS Horizons</div>
-    </div>
+ <!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-left">
+    <h4 style="color: black;">
+      <img src="image/LogoComputer.png" alt="logo" style="height: 100px; object-fit: contain;">
+    </h4>
+    <div class="copy">© 2025 TUS Horizons</div>
+  </div>
 
-    <div class="footer-center">
-      <div class="links">
-        <span>More Info</span>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-      </div>
+  <div class="footer-center">
+    <div class="links">
+      <span>More Info</span>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
     </div>
+  </div>
 
-    <div class="footer-right">
-      <div class="links">
-        <span>Social Links</span>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-      </div>
+  <div class="footer-right">
+    <div class="links">
+      <span>Social Links</span>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
     </div>
-  </footer>
+  </div>
+</footer>
+
+<!-- Discreet Admin Sign-In link below footer -->
+<div class="footer-admin">
+  <a href="/admin/login">Admin Sign-In</a>
+</div>
+
 
 </body>
 </html>
+
