@@ -1,275 +1,216 @@
-@import url("https://fonts.googleapis.com/css2?family=Domine&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+/* ===== GLOBAL ===== */
+:root {
+  --accent: #F78F1E;      /* button accent */
+  --accent-hover: #e67f14;
+  --page-bg: #F8F8F8;     /* page background */
+  --form-bg: #F8F8F8;     /* form background */
+  --border-col: #6F6F6F;  /* border line */
+  --text: #201f1e;
+}
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  background-color: var(--page-bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* CSS Button */
-.btn-custom { 
-  background-color: #5B9BD5 !important;
-  border-color: #5B9BD5 !important;
-  color: white !important;
+/* ===== BUTTONS ===== */
+.btn-custom {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 10px 16px;
+  transition: background-color 0.16s ease, box-shadow 0.16s ease;
 }
 
-.btn-custom:hover {
-  background-color: #4a8ac5 !important;
-  border-color: #4a8ac5 !important;
-  color: white!important;
+.btn-custom:hover,
+.btn-custom:focus {
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  box-shadow: 0 0 0 3px rgba(247, 143, 30, 0.12);
 }
 
+.btn-outline-custom {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 9px 14px;
+  text-decoration: none;
+}
 
-/* CSS for header */
+.btn-outline-custom:hover {
+  background-color: rgba(247, 143, 30, 0.06);
+  color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* ===== HEADER ===== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  height: 70px;
-  background-color: #fff;
-  
-
+  padding: 12px 36px;
+  background-color: #ffffff;
+  border-bottom: 1.5px solid var(--border-col);
 }
 
-.header .logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.header .logo img {
-  height: 100px;
+.logo-img,
+.footer-logo {
+  height: 90px;
   object-fit: contain;
 }
+
+/* nav */
 .nav-items {
   display: flex;
-  justify-content: space-around;
+  gap: 18px;
   align-items: center;
-  background-color: #ffffff;
-  margin-right: 20px;
-  
 }
 
 .nav-items a {
   text-decoration: none;
   color: #000;
-  padding: 35px 20px;
-}
-
-
-
-.intro button {
-  background-color: #ff0011;
-  color: #fff;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4)
-}
-
-.achievements {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 40px 80px;
-}
-
-.achievements .work {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 40px;
-}
-
-.achievements .work i {
-  width: fit-content;
-  font-size: 50px;
-  color: #333333;
-  border-radius: 50%;
-  border: 2px solid #333333;
-  padding: 12px;
-}
-
-.achievements .work .work-heading {
-  font-size: 20px;
-  color: #333333;
+  padding: 10px 8px;
+  font-weight: 500;
   text-transform: uppercase;
-  margin: 10px 0;
+  transition: color 0.15s ease;
 }
 
-.achievements .work .work-text {
-  font-size: 15px;
-  color: #585858;
-  margin: 10px 0;
-}
-.page-item .page-link {
-    color: #000 !important;
+.nav-items a.active,
+.nav-items a:hover {
+  color: var(--accent);
 }
 
+/* icon button */
+.icon-button a { color: #222; text-decoration: none; padding: 6px; display: inline-block; }
+.icon-button i { font-size: 1.05rem; color: #333; }
 
+/* ===== PAGE TITLE ===== */
+.page-title {
+  text-align: center;
+  margin-top: 40px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
 
-/* CSS for footer */
+/* ===== LOGIN / REGISTER LAYOUT ===== */
+.login-page { padding-bottom: 40px; }
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--form-bg);
+  border: 1px solid var(--border-col);
+  border-radius: 10px;
+  padding: 32px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+/* labels & inputs */
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.login-form .form-control {
+  border: 1px solid var(--border-col);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: var(--text);
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.login-form .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(247, 143, 30, 0.12);
+  outline: none;
+}
+
+/* forgot password */
+.forgot-password {
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.forgot-password a {
+  color: var(--border-col);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.forgot-password a:hover { color: var(--accent); }
+
+/* spacing helpers */
+.login-form .mt-2 { margin-top: 0.5rem; }
+.login-form .mt-3 { margin-top: 1rem; }
+
+/* create account */
+.create-account {
+  margin-top: 14px;
+}
+
+/* ===== FOOTER ===== */
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: #ffffff;
-  border-top: 1.5px solid black;
-  padding: 20px 80px;
+  background-color: var(--page-bg);
+  border-top: 1.5px solid var(--border-col);
+  padding: 20px 60px;
 }
 
-.footer-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+.footer .links { display: flex; flex-direction: column; gap: 6px; }
 
-.footer-center {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
+.footer .links span { font-weight: 700; color: #000; text-transform: uppercase; font-size: 0.85rem; }
 
-.footer-right {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
+.footer .links a { text-decoration: none; color: #000; font-weight: 500; }
 
-/* Admin Sign-In footer link */
+.footer .copy { margin-top: 8px; font-weight: 700; }
+
+/* admin link */
 .footer-admin {
   text-align: center;
-  background-color: #ffffff;
-  padding: 10px 0 15px 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 0 28px;
 }
 
 .footer-admin a {
-  text-decoration: none;
   color: #6b6b6b;
-  font-size: 13px;
-  transition: color 0.2s ease, text-decoration 0.2s ease;
-}
-
-.footer-admin a:hover {
-  color: #0078d4; /* Fluent accent blue */
-  text-decoration: underline;
-}
-
-
-.links {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.links span {
-  font-size: 14px;        
-  font-weight: 700;  
-  color: #000000;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.links a {
   text-decoration: none;
-  color: #000000;
-  padding: 5px 0;
+  font-size: 0.9rem;
 }
 
-.footer .copy {
-  color: #000000;
-  margin-top: 10px;
-  font-weight: 700;         
-  font-size: 14px;
-}
+.footer-admin a:hover { color: var(--accent); }
 
-/* === Fluent 2 Inspired Form === */
-form {
-  width: 60%;
-  margin: 40px auto;
-  padding: 32px;
-  background-color: #f3f2f1; /* Neutral canvas */
-  border-radius: 8px; /* Consistent Fluent corner radius */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft elevation */
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-
-/* === Field & Label === */
-label {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #201f1e;
-  margin-bottom: 6px;
-}
-
-input[type="text"],
-textarea,
-input[type="file"] {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 1rem;
-  border: 1px solid #c8c6c4;
-  border-radius: 6px;
-  background-color: #ffffff;
-  color: #201f1e;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input[type="text"]:focus,
-textarea:focus,
-input[type="file"]:focus {
-  border-color: #0078d4; /* Fluent accent color */
-  box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
-  outline: none;
-}
-
-/* === Button (Primary) === */
-input[type="submit"] {
-  display: inline-block;
-  background-color: #0078d4;
-  color: #ffffff;
-  font-weight: 600;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input[type="submit"]:hover {
-  background-color: #106ebe;
-  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.2);
-}
-
-input[type="submit"]:focus-visible {
-  outline: 2px solid #005a9e;
-  outline-offset: 2px;
-}
-
-/* === Validation/Error State === */
-.validation-errors {
-  color: #d83b01;
-  margin-top: 20px;
-  background-color: #fdf3f2;
-  padding: 12px 16px;
-  border-radius: 6px;
-  border-left: 4px solid #d83b01;
-}
-
-/* === Iconography Placeholder (Optional for Fluent style) === */
-.icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 8px;
-  color: #605e5c;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 576px) {
+  .header { padding: 10px 16px; }
+  .nav-items { gap: 10px; display: none; } /* hide long nav on very small screens */
+  .login-form { padding: 22px; margin: 12px; width: calc(100% - 24px); }
+  .logo-img, .footer-logo { height: 70px; }
 }
