@@ -3,6 +3,7 @@ package idm3.project.gallery.application;
 import idm3.project.gallery.repository.ProjectRepository;
 import idm3.project.gallery.repository.ShowcaseRepository;
 import idm3.project.gallery.repository.UserRepository;
+import idm3.project.gallery.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 public class GalleryApplication implements CommandLineRunner {
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository userRepo;
+
 	@Autowired
-	private ProjectRepository projectRepository;
+	private ProjectRepository projectRepo;
+
 	@Autowired
-	private ShowcaseRepository showcaseRepository;
+	private ShowcaseRepository showcaseRepo;
+
+	@Autowired
+	private ProjectService projectService;
 
 	private static final Logger log = LoggerFactory.getLogger(GalleryApplication.class);
 
@@ -35,14 +41,14 @@ public class GalleryApplication implements CommandLineRunner {
 		//fetch all projects
 		log.info("all users found with findAll():");
 		log.info("-------------------------------");
-		userRepository.findAll().forEach(user -> {
+		userRepo.findAll().forEach(user -> {
 			log.info(user.toString());
 		});
 		log.info("");
 		//fetch all projects
 		log.info("all projects found with findAll():");
 		log.info("-------------------------------");
-		projectRepository.findAll().forEach(project -> {
+		projectRepo.findAll().forEach(project -> {
 			log.info(project.toString());
 		});
 		log.info("");
@@ -50,7 +56,7 @@ public class GalleryApplication implements CommandLineRunner {
 //		//fetch all showcases
 		log.info("all showcases found with findAll():");
 		log.info("-------------------------------");
-		showcaseRepository.findAll().forEach(showcase -> {
+		showcaseRepo.findAll().forEach(showcase -> {
 			log.info(showcase.toString());
 		});
 		log.info("");
