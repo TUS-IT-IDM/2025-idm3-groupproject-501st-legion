@@ -1,5 +1,6 @@
 package idm3.project.gallery.controllers;
 
+
 import idm3.project.gallery.model.Project;
 import idm3.project.gallery.model.Showcase;
 import idm3.project.gallery.model.User;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -27,18 +29,18 @@ public class MainGalleryController {
     private ShowcaseService showcaseService;
     @Autowired
     private ProjectService projectService;
+
     @Autowired
     private ServletContext servletContext;
     @Autowired
     private ThumbnailService thumbnailService;
-
-
     @GetMapping("/Login")
     public ModelAndView showLoginPage() {
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
+
     // Handle Login Submission
     @PostMapping("/Login")
     public ModelAndView handleLogin(@ModelAttribute("user") User user) {
@@ -53,13 +55,14 @@ public class MainGalleryController {
         }
         return modelAndView;
     }
-    // Display Registration Page
+
     @GetMapping("/Register")
     public ModelAndView showRegisterPage() {
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
+
     // Handle Registration Submission
     @PostMapping("/Register")
     public ModelAndView handleRegister(@ModelAttribute("user") User user) {
@@ -77,7 +80,7 @@ public class MainGalleryController {
     @RequestMapping(value = {"/HomePage", ""})
     public ModelAndView ModelAndViewsetUpIndexPageData() {
         System.out.println("ModelAndViewsetUpIndexPageData");
-        ModelAndView mav = new ModelAndView("homePage");
+        ModelAndView mav = new ModelAndView("homepage");
         // find all projects
         List<Project> allProjects = projectService.findAll();
 
@@ -87,45 +90,47 @@ public class MainGalleryController {
         mav.addObject("AllProjectsRecentFirst", allProjects);
         mav.addObject("AllLiveShowcases", allShowcases);
         return mav;
+
+
     }
 
     private List<Showcase> generateThumbnailShowcases() {
         List<Showcase> allShowcases = showcaseService.findAll();
         try{
 
-        String imageDirPathShowcase = "src/main/resources/static/assets/images/showcases/";
-        String thumbnailDirPathShowcase = "src/main/resources/static/assets/images/showcases/thumbnail/";
-        for(Showcase showcase : allShowcases) {
+            String imageDirPathShowcase = "src/main/resources/static/assets/images/showcases/";
+            String thumbnailDirPathShowcase = "src/main/resources/static/assets/images/showcases/thumbnail/";
+            for(Showcase showcase : allShowcases) {
 
-            System.out.println(imageDirPathShowcase + showcase.getImage());
-            File image = new File(imageDirPathShowcase + "/" +showcase.getImage());
-            System.out.println("thumbnail:" + thumbnailDirPathShowcase + "thumb_" + image.getName());
-            File thumbnailFile = new File(thumbnailDirPathShowcase + "/" + "thumb_" + image.getName());
-            thumbnailService.generateThumbnailShowcase(image, thumbnailFile);
-            System.out.println("Image uploaded and thumbnail created: " + thumbnailFile.getAbsolutePath());
+                System.out.println(imageDirPathShowcase + showcase.getImage());
+                File image = new File(imageDirPathShowcase + "/" +showcase.getImage());
+                System.out.println("thumbnail:" + thumbnailDirPathShowcase + "thumb_" + image.getName());
+                File thumbnailFile = new File(thumbnailDirPathShowcase + "/" + "thumb_" + image.getName());
+                thumbnailService.generateThumbnailShowcase(image, thumbnailFile);
+                System.out.println("Image uploaded and thumbnail created: " + thumbnailFile.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to upload image or create thumbnail.");
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-        System.out.println("Failed to upload image or create thumbnail.");
-    }
         return allShowcases;
     }
 
     private void generateThumbnailProject(List<Project> allProjects) {
         // Generate thumbnail
         try{
-           String imageDirPathProject = "src/main/resources/static/assets/images/projects/";
-           String thumbnailDirPathProject = "src/main/resources/static/assets/images/projects/thumbnail/";
+            String imageDirPathProject = "src/main/resources/static/assets/images/projects/";
+            String thumbnailDirPathProject = "src/main/resources/static/assets/images/projects/thumbnail/";
 
-        for(Project project : allProjects) {
+            for(Project project : allProjects) {
 
-            System.out.println(imageDirPathProject + project.getProjectHeroImage());
-            File image = new File(imageDirPathProject + "/" +project.getProjectHeroImage());
-            System.out.println("thumbnail:" + thumbnailDirPathProject + "thumb_" + image.getName());
-            File thumbnailFile = new File(thumbnailDirPathProject + "/" + "thumb_" + image.getName());
-            thumbnailService.generateThumbnail(image, thumbnailFile);
-            System.out.println("Image uploaded and thumbnail created: " + thumbnailFile.getAbsolutePath());
-        }
+                System.out.println(imageDirPathProject + project.getProjectHeroImage());
+                File image = new File(imageDirPathProject + "/" +project.getProjectHeroImage());
+                System.out.println("thumbnail:" + thumbnailDirPathProject + "thumb_" + image.getName());
+                File thumbnailFile = new File(thumbnailDirPathProject + "/" + "thumb_" + image.getName());
+                thumbnailService.generateThumbnail(image, thumbnailFile);
+                System.out.println("Image uploaded and thumbnail created: " + thumbnailFile.getAbsolutePath());
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Failed to upload image or create thumbnail.");
