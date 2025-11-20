@@ -18,7 +18,7 @@ public class UserService {
     // Register a new user
     public boolean registerUser(User user) {
         if (userRepository.existsByUserName(user.getUserName()) || userRepository.existsByEmailAddress(user.getEmailAddress())) {
-            return false; // User already exists
+            return false;
         }
         userRepository.save(user);
         return true;
