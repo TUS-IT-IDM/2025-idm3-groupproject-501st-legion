@@ -3,6 +3,7 @@
 body {
     margin: 0;
     box-sizing: border-box;
+    font-family: Roboto, serif;
 }
 
 /* CSS for header */
@@ -10,13 +11,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: white;
+    border-bottom: 1.5px solid black;
 }
 
 .header .logo {
     font-size: 25px;
-    font-family: "Domine";
-    color: #000;
+    color: black;
     text-decoration: none;
     margin-left: 30px;
 }
@@ -25,19 +26,19 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: white;
     margin-right: 20px;
 }
 
 .nav-items a {
     text-decoration: none;
-    color: #000;
+    color: black;
     padding: 35px 20px;
 }
 
 
 .intro button {
-    background-color: #ff0011;
+    background-color: rebeccapurple;
     color: #fff;
     padding: 10px 25px;
     border: none;
@@ -85,45 +86,171 @@ body {
     margin: 10px 0;
 }
 
+.btn-custom {
+    background-color: #5B9BD5 !important;
+    border-color: #5B9BD5 !important;
+    color: white !important;
+}
 
+.btn-custom:hover {
+    background-color: #4a8ac5 !important;
+    border-color: #4a8ac5 !important;
+    color: white!important;
+}
+
+.page-item .page-link {
+    color: #000 !important;
+}
+.btn-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+}
+.btn-orange-primary {
+    border: 2px solid #F78F1E;
+    color: white;
+    background-color: #F78F1E;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    text-decoration: none;
+}
+
+.btn-orange-primary:hover {
+    background-color: #e67a1a;
+    border-color: #e67a1a;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-orange-secondary {
+    border: 2px solid #F78F1E;
+    color: #F78F1E;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    text-decoration: none;
+}
+
+.btn-orange-outline:hover {
+    background: #F78F1E;
+    color: white;
+}
+
+.btn-orange-outline i {
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.btn-red-delete {
+    border: 2px solid #d9534f;
+    color: #d9534f;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    text-decoration: none;
+}
+
+.btn-red-outline:hover {
+    background: #d9534f;
+    color: white;
+}
+
+.btn-red-outline i {
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.card-custom {
+    max-width: 600px;
+    margin: 3rem auto;
+    border-radius: 12px;
+    padding: 2rem;
+    background-color: white;
+}
+
+.card-title {
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+}
+.card-custom input:focus,
+.card-custom textarea:focus {
+    border-color: #F78F1E;
+    box-shadow: 0 0 0 0.2rem rgba(247, 143, 30, 0.25);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.form-control:focus {
+    border-color: #F78F1E;
+    box-shadow: 0 0 0 0.2rem rgba(247, 143, 30, 0.25);
+    outline: none;
+    transition: all 0.25s;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #555;
+}
 
 /* CSS for footer */
 .footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #302f49;
+    align-items: flex-start;
+    background-color: white;
+    border-top: 1.5px solid black;
     padding: 20px 80px;
 }
 
-.footer .copy {
-    color: #fff;
-}
-
-.bottom-links {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 40px 0;
-}
-
-.bottom-links .links {
+.footer-left {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-center {
+    flex: 1;
+    display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 0 40px;
+    align-items: flex-start;
 }
 
-.bottom-links .links span {
-    font-size: 20px;
-    color: #fff;
+.footer-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.links span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
     text-transform: uppercase;
-    margin: 10px 0;
+    margin-bottom: 10px;
 }
 
-.bottom-links .links a {
+.links a {
     text-decoration: none;
-    color: #a1a1a1;
-    padding: 10px 20px;
+    color: #000000;
+    padding: 5px 0;
+}
+
+.footer .copy {
+    color: #000000;
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 14px;
+
 }

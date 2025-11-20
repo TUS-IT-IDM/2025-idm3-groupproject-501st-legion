@@ -1,6 +1,5 @@
 package idm3.project.gallery.controllers;
 
-
 import idm3.project.gallery.model.Project;
 import idm3.project.gallery.model.Showcase;
 import idm3.project.gallery.model.User;
@@ -9,13 +8,11 @@ import idm3.project.gallery.service.ProjectService;
 import idm3.project.gallery.service.UserService;
 import idm3.project.gallery.service.ThumbnailService;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -30,55 +27,32 @@ public class MainGalleryController {
     private ShowcaseService showcaseService;
     @Autowired
     private ProjectService projectService;
-
     @Autowired
     private ServletContext servletContext;
     @Autowired
     private ThumbnailService thumbnailService;
-    // Display Login Page
-    // Display Login Page
+
+
     @GetMapping("/Login")
     public ModelAndView showLoginPage() {
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
-
-    @GetMapping("/studentDashboard")
-    public ModelAndView studentDashboard() {
-        ModelAndView modelAndView = new ModelAndView("studentDashboard");
-
-        return modelAndView;
-    }
+    // Handle Login Submission
     @PostMapping("/Login")
-    public ModelAndView handleLogin(@ModelAttribute("user") User user, HttpSession session) {
+    public ModelAndView handleLogin(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
         User authenticatedUser = userService.authenticate(user.getUserName(), user.getPassword());
         if (authenticatedUser != null) {
-            // Store the authenticated user in the session
-            session.setAttribute("loggedInUser", authenticatedUser);
-            System.out.println("User Type " + authenticatedUser.getUserType());
-            // Redirect based on user type
-            if ("admin".equalsIgnoreCase(authenticatedUser.getUserType())) {
-                modelAndView.setViewName("redirect:/MainGallery/adminDashboard");
-            } else if ("student".equalsIgnoreCase(authenticatedUser.getUserType())) {
-                modelAndView.setViewName("redirect:/MainGallery/studentDashboard");
-            } else if ("employer".equalsIgnoreCase(authenticatedUser.getUserType())) {
-                modelAndView.setViewName("redirect:/MainGallery/employerDashboard");
-            } else {
-                modelAndView.setViewName("redirect:/MainGallery/dashboard");
-            }
-
-            modelAndView.addObject("loggedInUser", authenticatedUser.getUserName());
+            modelAndView.setViewName("redirect:/dashboard");
+            modelAndView.addObject("username", authenticatedUser.getUserName());
         } else {
-            // Return to login page with error message
             modelAndView.setViewName("login");
             modelAndView.addObject("error", "Invalid username or password");
         }
         return modelAndView;
     }
-
-
     // Display Registration Page
     @GetMapping("/Register")
     public ModelAndView showRegisterPage() {
@@ -86,7 +60,6 @@ public class MainGalleryController {
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
-
     // Handle Registration Submission
     @PostMapping("/Register")
     public ModelAndView handleRegister(@ModelAttribute("user") User user) {
@@ -104,9 +77,9 @@ public class MainGalleryController {
     @RequestMapping(value = {"/HomePage", ""})
     public ModelAndView ModelAndViewsetUpIndexPageData() {
         System.out.println("ModelAndViewsetUpIndexPageData");
-        ModelAndView mav = new ModelAndView("homepage");
+        ModelAndView mav = new ModelAndView("homePage");
         // find all projects
-        List<Project> allProjects = projectService.findAllOrderedByCreationDate();
+        List<Project> allProjects = projectService.findAll();
 
         generateThumbnailProject(allProjects);
         List<Showcase> allShowcases = generateThumbnailShowcases();
@@ -114,12 +87,10 @@ public class MainGalleryController {
         mav.addObject("AllProjectsRecentFirst", allProjects);
         mav.addObject("AllLiveShowcases", allShowcases);
         return mav;
-
-
     }
 
     private List<Showcase> generateThumbnailShowcases() {
-        List<Showcase> allShowcases = showcaseService.findAllLive();
+        List<Showcase> allShowcases = showcaseService.findAll();
         try{
 
         String imageDirPathShowcase = "src/main/resources/static/assets/images/showcases/";

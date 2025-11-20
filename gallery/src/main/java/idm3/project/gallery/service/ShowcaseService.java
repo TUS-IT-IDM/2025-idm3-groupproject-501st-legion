@@ -16,11 +16,6 @@ public class ShowcaseService {
     public List<Showcase> findAll() {
         return (List<Showcase>) showcaseRepository.findAll();
     }
-
-    // Return only live showcases
-    public List<Showcase> findAllLive() {
-        return showcaseRepository.findByStatus("LIVE");
-    }
 }
 
 
