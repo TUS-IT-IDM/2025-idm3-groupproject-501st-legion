@@ -1,17 +1,11 @@
 package idm3.project.gallery.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "Employer")
 public class Employer {
 
@@ -47,26 +41,50 @@ public class Employer {
     @Column(name = "saved")
     private Boolean saved = false;
 
-
-    @OneToMany(
-            mappedBy = "employer",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
 
+    // --------- GETTERS / SETTERS ----------
 
-    public boolean isSaved() {
-        return saved != null && saved;
+    public Long getEmployerId() {
+        return employerId;
     }
 
-    public Boolean getSaved() {
-        return saved;
+    public void setEmployerId(Long employerId) {
+        this.employerId = employerId;
     }
 
-    public void setSaved(Boolean saved) {
-        this.saved = saved;
+    public String getEmployerName() {
+        return employerName;
+    }
+
+    public void setEmployerName(String employerName) {
+        this.employerName = employerName;
+    }
+
+    public String getEmployerDescription() {
+        return employerDescription;
+    }
+
+    public void setEmployerDescription(String employerDescription) {
+        this.employerDescription = employerDescription;
+    }
+
+    public String getEmployerDescriptionSummary() {
+        return employerDescriptionSummary;
+    }
+
+    public void setEmployerDescriptionSummary(String employerDescriptionSummary) {
+        this.employerDescriptionSummary = employerDescriptionSummary;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getEmployerHeroImage() {
@@ -85,12 +103,40 @@ public class Employer {
         this.creationDate = creationDate;
     }
 
+    public String getAdditionalDoc() {
+        return additionalDoc;
+    }
+
+    public void setAdditionalDoc(String additionalDoc) {
+        this.additionalDoc = additionalDoc;
+    }
+
     public String getNotes() {
         return notes;
     }
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Boolean getSaved() {
+        return saved;
+    }
+
+    public void setSaved(Boolean saved) {
+        this.saved = saved;
+    }
+
+    public boolean isSaved() {
+        return saved != null && saved;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
 

@@ -3,7 +3,6 @@ package idm3.project.gallery.application;
 import idm3.project.gallery.repository.ProjectRepository;
 import idm3.project.gallery.repository.ShowcaseRepository;
 import idm3.project.gallery.repository.UserRepository;
-import idm3.project.gallery.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,45 +19,37 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("idm3.project.gallery.repository")
 
 public class GalleryApplication implements CommandLineRunner {
-	@Autowired
-	private UserRepository userRepo;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private ShowcaseRepository showcaseRepository;
 
-	@Autowired
-	private ProjectRepository projectRepo;
+    private static final Logger log = LoggerFactory.getLogger(GalleryApplication.class);
 
-	@Autowired
-	private ShowcaseRepository showcaseRepo;
+    public static void main(String[] args) {
+        SpringApplication.run(GalleryApplication.class, args);
+    }
+    public void run(String... args) throws Exception {
+        log.info("all users found with findAll():");
+        log.info("-------------------------------");
+        userRepository.findAll().forEach(user -> {
+            log.info(user.toString());
+        });
+        log.info("");
+        log.info("all projects found with findAll():");
+        log.info("-------------------------------");
+        projectRepository.findAll().forEach(project -> {
+            log.info(project.toString());
+        });
+        log.info("");
 
-	@Autowired
-	private ProjectService projectService;
-
-	private static final Logger log = LoggerFactory.getLogger(GalleryApplication.class);
-
-	public static void main(String[] args) {
-		SpringApplication.run(GalleryApplication.class, args);
-	}
-	public void run(String... args) throws Exception {
-		//fetch all projects
-		log.info("all users found with findAll():");
-		log.info("-------------------------------");
-		userRepo.findAll().forEach(user -> {
-			log.info(user.toString());
-		});
-		log.info("");
-		//fetch all projects
-		log.info("all projects found with findAll():");
-		log.info("-------------------------------");
-		projectRepo.findAll().forEach(project -> {
-			log.info(project.toString());
-		});
-		log.info("");
-
-//		//fetch all showcases
-		log.info("all showcases found with findAll():");
-		log.info("-------------------------------");
-		showcaseRepo.findAll().forEach(showcase -> {
-			log.info(showcase.toString());
-		});
-		log.info("");
-	}
+        log.info("all showcases found with findAll():");
+        log.info("-------------------------------");
+        showcaseRepository.findAll().forEach(showcase -> {
+            log.info(showcase.toString());
+        });
+        log.info("");
+    }
 }

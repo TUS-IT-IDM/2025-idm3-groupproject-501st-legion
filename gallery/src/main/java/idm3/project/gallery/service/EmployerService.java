@@ -1,10 +1,13 @@
 package idm3.project.gallery.service;
 
 import idm3.project.gallery.model.Employer;
+import idm3.project.gallery.model.Review;
 import idm3.project.gallery.repository.EmployerRepository;
 import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.sql.Date;
@@ -16,19 +19,17 @@ public class EmployerService {
     private final EmployerRepository employerRepo;
 
     @Autowired
+    private ThumbnailService thumbnailService;
+
+    @Autowired
     public EmployerService(EmployerRepository employerRepo) {
         this.employerRepo = employerRepo;
     }
 
-
-
     private Employer getOrThrow(Long id) {
         return employerRepo.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Employer not found ID " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Employer not found ID " + id));
     }
-
-
 
     public List<Employer> findAll() {
         return employerRepo.findAll();
@@ -49,20 +50,14 @@ public class EmployerService {
         employerRepo.deleteById(id);
     }
 
-
-
     public List<Employer> searchProject(String keyword) {
         if (keyword == null || keyword.isBlank()) {
             return findAll();
         }
-
-        return employerRepo
-                .findByEmployerNameContainingIgnoreCaseOrEmployerDescriptionContainingIgnoreCase(
-                        keyword, keyword
-                );
+        return employerRepo.findByEmployerNameContainingIgnoreCaseOrEmployerDescriptionContainingIgnoreCase(
+                keyword, keyword
+        );
     }
-
-
 
     public void saveToList(Long id) {
         Employer e = getOrThrow(id);
@@ -75,8 +70,6 @@ public class EmployerService {
         e.setSaved(false);
         employerRepo.save(e);
     }
-
-
 
     public void updateNotes(Long id, String notes) {
         Employer e = getOrThrow(id);
@@ -91,29 +84,50 @@ public class EmployerService {
                 .toList();
     }
 
-    @Autowired
-    private ThumbnailService thumbnailService;
+    /** ADD REVIEW */
+    public void addReview(Long employerId, Integer rating, String comment) {
+        Employer e = getOrThrow(employerId);
 
-    public void generateThumbnailForEmployer(Employer employer) {
-        if (employer.getEmployerHeroImage() == null) return;
+        Review r = new Review();
+        r.setRating(rating);
+        r.setComment(comment);
+        r.setEmployer(e);
 
-        try {
-            String sourcePath =
-                    "src/main/resources/static/assets/images/projects/" + employer.getEmployerHeroImage();
-
-            String thumbPath =
-                    "src/main/resources/static/assets/images/projects/thumbnail/thumb_" + employer.getEmployerHeroImage();
-
-            thumbnailService.generateThumbnail(
-                    new File(sourcePath),
-                    new File(thumbPath)
-            );
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        e.getReviews().add(r);
+        employerRepo.save(e);
     }
 
+    public void saveEmployerImage(Long employerId, MultipartFile file) throws Exception {
+
+        Employer employer = getOrThrow(employerId);
+
+        if (file.isEmpty()) {
+            throw new Exception("File is empty");
+        }
+
+        // YOUR ACTUAL PROJECT STRUCTURE:
+        String uploadDir = "src/main/resources/static/images/projects/";
+        String thumbnailDir = "src/main/resources/static/images/projects/thumbnail/";
+
+        new File(uploadDir).mkdirs();
+        new File(thumbnailDir).mkdirs();
+
+        String filename = file.getOriginalFilename();
+        File saveFile = new File(uploadDir + filename);
+        file.transferTo(saveFile);
+
+        employer.setEmployerHeroImage(filename);
+        employerRepo.save(employer);
+
+        File thumbFile = new File(thumbnailDir + "thumb_" + filename);
+        thumbnailService.generateThumbnail(saveFile, thumbFile);
+    }
+
+
+
 }
+
+
+
 
 

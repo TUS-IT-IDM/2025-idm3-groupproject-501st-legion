@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Admin Login</title>
+    <title>All Notes</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/lcstyle.css">
 </head>
 
@@ -13,8 +16,10 @@
 
 <header class="header">
     <a href="#" class="logo">
-        <img th:src="@{assets/images/logo/LogoComputer.png}" src="assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+        <img th:src="@{/assets/images/logo/LogoComputer.png}"
+             src="/assets/images/logo/LogoComputer.png"
+             class="logo-img"
+             style="width:250px;height:100px;" />
     </a>
 
 
@@ -31,33 +36,37 @@
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
 
-
 </header>
 
-<main class="login-page">
-    <h1 class="page-title">Admin Login</h1>
+<main class="dashboard-container">
 
-    <div class="login-container">
-        <form th:action="@{/adminlogin}" method="post" class="login-form">
+    <h2 class="section-title">All Notes</h2>
 
-            <p th:if="${error}" class="text-danger" th:text="${error}"></p>
+    <div class="cards-container">
 
-            <label for="Username">User Name</label>
-            <input type="text" name="username" id="Username" class="form-control" placeholder="Enter your username" required />
+        <div class="card" th:each="note : ${notes}">
 
-            <label for="Password" class="mt-3">Password</label>
-            <input type="password" name="password" id="Password" class="form-control" placeholder="Enter your password" required />
+            <h4 th:text="${note.project.projectName}"></h4>
 
-            <button type="submit" class="btn btn-custom w-100 mt-3">Sign In</button>
-        </form>
+            <p th:text="${note.noteText}"></p>
+
+            <small style="color:gray;"
+                   th:text="'Created: ' + ${note.createdAt}">
+            </small>
+
+        </div>
+
     </div>
+
 </main>
+
 
 <footer class="footer">
     <div class="footer-left">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+             class="logo-img"
+             style="width:250px;height:100px;">
         <div class="copy">© 2025 TUS Horizons</div>
     </div>
 
@@ -79,10 +88,6 @@
         </div>
     </div>
 </footer>
-
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}" href="/adminlogin.html">Admin Sign-In</a>
-</div>
 
 </body>
 </html>

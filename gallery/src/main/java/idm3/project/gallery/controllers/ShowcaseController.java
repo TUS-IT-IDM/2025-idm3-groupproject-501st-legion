@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 @RequestMapping("/showcases")
 public class ShowcaseController {
@@ -116,6 +115,18 @@ public class ShowcaseController {
     @GetMapping("/search")
     public String searchShowcases(@RequestParam("keyword") String keyword, Model model) {
         model.addAttribute("showcases", showcaseService.searchByName(keyword));
+        return "showcase";
+    }
+
+    @GetMapping("/filter")
+    public String filterByStatus(@RequestParam("status") String status, Model model) {
+        model.addAttribute("showcases", showcaseService.filterByStatus(status));
+        return "showcase";
+    }
+
+    @GetMapping("/sort")
+    public String sortShowcases(@RequestParam("order") String order, Model model) {
+        model.addAttribute("showcases", showcaseService.sortShowcases(order));
         return "showcase";
     }
 }
