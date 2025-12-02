@@ -1,10 +1,11 @@
 package idm3.project.gallery.controllers;
 
-import idm3.project.gallery.model.Employer;
-import idm3.project.gallery.model.Review;
-import idm3.project.gallery.service.EmployerService;
-import idm3.project.gallery.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import idm3.project.gallery.model.Project;
+import idm3.project.gallery.model.ProjectNote;
+import idm3.project.gallery.service.EmployerProjectService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,96 +16,76 @@ import java.util.List;
 @RequestMapping("/employer")
 public class EmployerController {
 
-    private final EmployerService employerService;
-    private final ReviewService reviewService;
+    private final EmployerProjectService employerService;
 
-    @Autowired
-    public EmployerController(EmployerService employerService,
-                              ReviewService reviewService) {
+    public EmployerController(EmployerProjectService employerService) {
         this.employerService = employerService;
-        this.reviewService = reviewService;
     }
 
+    @GetMapping
+    public ModelAndView dashboard(HttpSession session) {
 
-    @GetMapping({"", "/all"})
-    public ModelAndView listEmployers() {
-        List<Employer> all = employerService.findAll();
-        List<Employer> saved = employerService.getSavedProjects();
+        Object userObj = session.getAttribute("employerUser");
+        if (userObj == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        Long employerId = ((idm3.project.gallery.model.User) userObj).getUserId();
+
+        List<Project> allProjects = employerService.findAllProjects();
 
         ModelAndView mv = new ModelAndView("employer");
-        mv.addObject("employers", all);
-        mv.addObject("savedProjects", saved);
+        mv.addObject("projects", allProjects);
+
         return mv;
     }
 
+    @PostMapping("/save")
+    public String save(@RequestParam Long projectId, HttpSession session) {
+        Long employerId = ((idm3.project.gallery.model.User) session.getAttribute("employerUser")).getUserId();
+        employerService.saveProject(projectId, employerId);
+        return "redirect:/employer";
+    }
 
-    @GetMapping("/details/{id}")
-    public ModelAndView viewDetails(@PathVariable Long id) {
-        Employer employer = employerService.findOne(id);
+    @PostMapping("/remove")
+    public String remove(@RequestParam Long projectId, HttpSession session) {
+        Long employerId = ((idm3.project.gallery.model.User) session.getAttribute("employerUser")).getUserId();
+        employerService.removeSavedProject(projectId, employerId);
+        return "redirect:/employer/notes";
+    }
 
-        ModelAndView mv = new ModelAndView("employerdetails");
-        mv.addObject("employer", employer);
-        mv.addObject("reviews", reviewService.getReviewsForEmployer(id));
+    @PostMapping("/note")
+    public String addNote(@RequestParam Long projectId,
+                          @RequestParam String noteText,
+                          HttpSession session) {
+
+        Long employerId = ((idm3.project.gallery.model.User) session.getAttribute("employerUser")).getUserId();
+        employerService.addNote(projectId, employerId, noteText);
+
+        return "redirect:/employer/notes";
+    }
+
+    @GetMapping("/notes")
+    public ModelAndView allNotes(HttpSession session) {
+
+        Long employerId = ((idm3.project.gallery.model.User) session.getAttribute("employerUser")).getUserId();
+
+        List<ProjectNote> notes = employerService.getUniqueSavedProjects(employerId);
+
+        ModelAndView mv = new ModelAndView("notes");
+        mv.addObject("notes", notes);
+
         return mv;
     }
 
+    @PostMapping("/note/delete")
+    public String deleteNote(@RequestParam Long projectId, HttpSession session) {
 
-    @PostMapping("/addReview")
-    public String addReview(@RequestParam Long employerId,
-                            @RequestParam String comment,
-                            @RequestParam int rating) {
+        Long employerId = ((idm3.project.gallery.model.User) session.getAttribute("employerUser")).getUserId();
 
-        Employer employer = employerService.findOne(employerId);
+        employerService.deleteNote(projectId, employerId);
 
-        Review review = new Review();
-        review.setComment(comment);
-        review.setRating(rating);
-        review.setEmployer(employer);
-
-        reviewService.saveReview(review);
-
-        return "redirect:/employer/details/" + employerId;
-    }
-
-
-    @PostMapping("/saveToList")
-    public String saveToList(@RequestParam Long id) {
-        employerService.saveToList(id);
-        return "redirect:/employer";
-    }
-
-
-    @PostMapping("/removeFromList")
-    public String removeFromList(@RequestParam Long id) {
-        employerService.removeFromList(id);
-        return "redirect:/employer";
-    }
-
-
-    @PostMapping("/updateNotes")
-    public String updateNotes(@RequestParam Long id, @RequestParam String notes) {
-        employerService.updateNotes(id, notes);
-        return "redirect:/employer";
-    }
-
-    @GetMapping("/search")
-    public ModelAndView search(@RequestParam String keyword) {
-        List<Employer> results = employerService.searchProject(keyword);
-        List<Employer> saved = employerService.getSavedProjects();
-
-        ModelAndView mv = new ModelAndView("employer");
-        mv.addObject("employers", results);
-        mv.addObject("savedProjects", saved);
-        mv.addObject("searchKeyword", keyword);
-        return mv;
+        return "redirect:/employer/notes";
     }
 
 }
-
-
-
-
-
-
-
-

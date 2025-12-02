@@ -16,43 +16,93 @@
 
 <header class="header">
     <a href="#" class="logo">
-        <img th:src="@{assets/images/logo/LogoComputer.png}" src="assets/images/logo/LogoComputer.png"
+        <img th:src="@{/assets/images/logo/LogoComputer.png}"
+             src="/assets/images/logo/LogoComputer.png"
              alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+
     </a>
 
-    <nav class="nav-items" th:with="admin=${session.adminUser}">
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
 
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
 
-        <a th:if="${admin == null}" th:href="@{/register}">Register</a>
-        <a th:if="${admin == null}" th:href="@{/login}">Sign-In</a>
+        <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
+        <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
 
-        <a th:if="${admin != null}" th:href="@{/showcases}">Dashboard</a>
-        <a th:if="${admin != null}" th:href="@{/logout}">Logout</a>
+        <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
 
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
+
+        <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
+
+        <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
+
+
+
 </header>
 
 <main>
     <div class="dashboard-container">
-        <h2 class="section-title">Showcase Management</h2>
+        <h2 class="section-title"
+            th:text="${session.adminUser != null}
+             ? 'Showcase Management'
+             : 'All Showcases'">
+        </h2>
+
 
         <div class="mb-4 text-center">
-            <form th:action="@{/showcases/search}" method="get" class="d-flex justify-content-center">
-                <input type="text" name="keyword" placeholder="Search showcases..." class="form-control w-50 me-2" required>
-                <button type="submit" class="btn btn-primary">Search</button>
+            <form th:action="@{/showcases/search}" method="get" class="search-bar-wrapper">
+                <input type="text" name="keyword" placeholder="Search showcases..."
+                       class="search-input" required>
+
+                <button type="submit" class="search-btn">
+                    Search
+                </button>
             </form>
         </div>
 
-        <a th:href="@{/showcases/add}" class="btn btn-custom mb-3">+ Add Showcase</a>
+
+        <div class="showcase-controls">
+            <a href="/showcases/filter?status=LIVE" class="filter-btn live">Show LIVE</a>
+            <a href="/showcases/filter?status=PENDING" class="filter-btn pending">Show PENDING</a>
+            <a href="/showcases" class="filter-btn reset">Reset</a>
+        </div>
+
+        <div class="showcase-controls">
+            <form action="/showcases/sort" method="get" class="sort-wrapper">
+                <select name="order" class="sort-select">
+                    <option value="az">Name A → Z</option>
+                    <option value="za">Name Z → A</option>
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+                <button type="submit" class="sort-btn">Sort</button>
+            </form>
+        </div>
+
+        <a href="/showcases/add"
+           th:if="${session.adminUser != null}"
+           class="btn-orange-primary">
+            Add Showcase
+        </a>
+
 
         <div class="cards-container">
             <div class="card" th:each="showcase : ${showcases}">
                 <img th:if="${showcase.thumbnailImage}" th:src="${showcase.thumbnailImage}" alt="Showcase Thumbnail" />
                 <h4 th:text="${showcase.name}"></h4>
                 <p th:text="${showcase.description}"></p>
+
                 <div class="status" th:text="'Status: ' + ${showcase.status}"></div>
 
                 <div class="card-buttons">
@@ -62,15 +112,16 @@
                         <i class="fa-solid fa-eye"></i> View
                     </a>
 
-                    <a th:href="@{/showcases/edit/{id}(id=${showcase.showcaseId})}"
+                    <a th:href="@{'/showcases/edit/' + ${showcase.showcaseId}}"
+                       th:if="${session.adminUser != null}"
                        class="btn-edit">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                        <i class="fa fa-edit"></i> Edit
                     </a>
 
-                    <a th:href="@{/showcases/delete/{id}(id=${showcase.showcaseId})}"
-                       class="btn-delete"
-                       onclick="return confirm('Delete this showcase?')">
-                        <i class="fa-solid fa-trash"></i> Delete
+                    <a th:href="@{'/showcases/delete/' + ${showcase.showcaseId}}"
+                       th:if="${session.adminUser != null}"
+                       class="btn-delete">
+                        <i class="fa fa-trash"></i> Delete
                     </a>
 
                 </div>
@@ -81,10 +132,11 @@
 
 </main>
 
-
 <footer class="footer">
     <div class="footer-left">
-        <img th:src="@{assets/images/logo/LogoComputer.png}" src="assets/images/logo/LogoComputer.png" alt="Company Logo" class="logo-img" style="width:150px;height:50px;" />
+        <img th:src="@{/assets/images/logo/LogoComputer.png}"
+             src="/assets/images/logo/LogoComputer.png"
+             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
         <div class="copy">© 2025 TUS Horizons</div>
     </div>
 

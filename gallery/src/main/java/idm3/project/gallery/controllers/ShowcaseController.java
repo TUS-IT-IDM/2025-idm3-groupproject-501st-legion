@@ -3,6 +3,8 @@ package idm3.project.gallery.controllers;
 import idm3.project.gallery.model.Showcase;
 import idm3.project.gallery.service.ShowcaseService;
 import idm3.project.gallery.service.ProjectService;
+
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 @Controller
 @RequestMapping("/showcases")
@@ -98,6 +99,30 @@ public class ShowcaseController {
         return "redirect:/showcases";
     }
 
+    @GetMapping("/{showcaseId}/project/delete/{projectId}")
+    public String deleteProjectFromShowcase(
+            @PathVariable long showcaseId,
+            @PathVariable long projectId,
+            HttpSession session,
+            RedirectAttributes ra) {
+
+        Object admin = session.getAttribute("adminUser");
+
+        if (admin == null) {
+            ra.addFlashAttribute("error", "Unauthorized.");
+            return "redirect:/showcases/" + showcaseId;
+        }
+
+        try {
+            projectService.delete(projectId);
+            ra.addFlashAttribute("success", "Project deleted successfully!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Failed to delete project.");
+        }
+
+        return "redirect:/showcases/" + showcaseId;
+    }
+
     @GetMapping("/{id}")
     public String viewShowcaseDetails(@PathVariable long id, Model model, RedirectAttributes ra) {
         Showcase showcase = showcaseService.findById(id);
@@ -116,6 +141,18 @@ public class ShowcaseController {
     @GetMapping("/search")
     public String searchShowcases(@RequestParam("keyword") String keyword, Model model) {
         model.addAttribute("showcases", showcaseService.searchByName(keyword));
+        return "showcase";
+    }
+
+    @GetMapping("/filter")
+    public String filterByStatus(@RequestParam("status") String status, Model model) {
+        model.addAttribute("showcases", showcaseService.filterByStatus(status));
+        return "showcase";
+    }
+
+    @GetMapping("/sort")
+    public String sortShowcases(@RequestParam("order") String order, Model model) {
+        model.addAttribute("showcases", showcaseService.sortShowcases(order));
         return "showcase";
     }
 }

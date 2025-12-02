@@ -7,7 +7,13 @@ import java.util.List;
 
 @Repository
 public interface ProjectNoteRepository extends JpaRepository<ProjectNote, Long> {
-    List<ProjectNote> findByUserId(Long userId);
-    ProjectNote findByUserIdAndEmployers_EmployerId(Long userId, Long employerId);
 
+    // Find all saved project notes for one employer, based on USERID column
+    List<ProjectNote> findByUserId(Long userId);
+
+    // Find ONE specific note for a project+employer pair
+    List<ProjectNote> findByUserIdAndProject_ProjectId(Long userId, Long projectId);
+
+    // Get ALL notes for employer sorted by newest first (used in /employer/notes)
+    List<ProjectNote> findByUserIdOrderByCreatedAtDesc(Long userId);
 }

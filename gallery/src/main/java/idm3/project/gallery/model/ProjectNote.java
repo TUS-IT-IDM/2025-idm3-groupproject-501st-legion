@@ -19,16 +19,16 @@ public class ProjectNote {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ProjectID", nullable = false)
-    private Employer employers;
+    private Project project;
 
-    @Column(name = "UserID")
-    private Long userId = 1L;
+    @Column(name = "UserID", nullable = false)
+    private Long userId;
 
-    @Column(name = "NoteText", length = 1000)
+    @Column(name = "NoteText", length = 2000)
     private String noteText;
 
-    @Column(name = "Saved", nullable = false)
-    private boolean saved = false;
+    @Column(name = "Saved")
+    private boolean saved = true;
 
     @Column(name = "CreatedAt")
     private Timestamp createdAt = new Timestamp(System.currentTimeMillis());

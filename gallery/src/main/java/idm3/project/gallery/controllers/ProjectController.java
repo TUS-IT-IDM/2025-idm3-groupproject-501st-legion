@@ -2,168 +2,121 @@ package idm3.project.gallery.controllers;
 
 import idm3.project.gallery.model.Project;
 import idm3.project.gallery.model.User;
-import idm3.project.gallery.repository.UserRepository;
 import idm3.project.gallery.service.ProjectService;
+import idm3.project.gallery.service.ShowcaseService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
-@Controller()
-@RequestMapping(value = {"/project", "/project/"})
-
-
+@Controller
+@RequestMapping("/project")
 public class ProjectController {
-    @Autowired
-    private ProjectService projectService;
-    @Autowired
-    private UserRepository userRepository;
 
-    @GetMapping({"/allProject", ""})
-    public ModelAndView displayAllProducts(
-            HttpSession session,
-            @CookieValue(value = "username", required = false) String username) {
+    private final ProjectService projectService;
+    private final ShowcaseService showcaseService;
 
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-        if (loggedInUser == null && username != null) {
-            User userFromCookie = userRepository.findByUserName(username);
-            if (userFromCookie != null) {
-                session.setAttribute("loggedInUser", userFromCookie);
-                loggedInUser = userFromCookie;
-            }
-        }
-
-        if (loggedInUser == null) {
-            return new ModelAndView("redirect:/login");
-        }
-        List<Project> userProjects = projectService.findByUser(loggedInUser);
-
-        return new ModelAndView("/project", "projects", userProjects);
+    public ProjectController(ProjectService projectService, ShowcaseService showcaseService) {
+        this.projectService = projectService;
+        this.showcaseService = showcaseService;
     }
-    @GetMapping("/view/{id}")
-    public ModelAndView viewProject(@PathVariable("id") long id) {
-        if (projectService.findOne(id).isEmpty())
-            return new ModelAndView("/error", "error", "Project not found");
-        else
-            return new ModelAndView("viewProject", "project", projectService.findOne(id).get());
+
+    @GetMapping
+    public String listProjects(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("studentUser");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("projects", projectService.findByUser(user));
+        return "Project";
     }
 
     @GetMapping("/add")
-    public ModelAndView showAddProductForm() {
-        return new ModelAndView("/addProject", "newProject", new Project());
-    }
-//    @PostMapping("/addProject")
-//    public ModelAndView addABook(@ModelAttribute("newProject") Project x, BindingResult result) {
-//        projectService.saveProject(x);
-//        return new ModelAndView("redirect:/project");
-//    }
-
-    @PostMapping("/delete")
-    public ModelAndView deleteProject(@RequestParam("projectId") long id) {
-        if (projectService.findOne(id).isEmpty()) {
-            return new ModelAndView("/error", "error", "Project not found");
-        } else {
-            projectService.deleteByID(id);
-            return new ModelAndView("redirect:/project/");
+    public String showAddForm(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("studentUser");
+        if (user == null) {
+            return "redirect:/login";
         }
+        model.addAttribute("project", new Project());
+        model.addAttribute("showcases", showcaseService.findAll());
+        return "addProject";
+    }
+
+    @PostMapping("/add")
+    public String addProject(@ModelAttribute Project project,
+                             @RequestParam("showcaseId") Long showcaseId,
+                             @RequestParam("projectHeroImageFile") MultipartFile file,
+                             HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("studentUser");
+            if (user == null) {
+                return "redirect:/login";
+            }
+            projectService.addProject(project, file, showcaseId, user);
+        } catch (Exception ignored) {}
+        return "redirect:/project";
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditProjectForm(@PathVariable("id") long id) {
-        if (projectService.findOne(id).isEmpty())
-            return new ModelAndView("/error", "error", "Project not found");
-        else
-            return new ModelAndView("/editProject", "aProject", projectService.findOne(id).get());
+    public String showEditForm(@PathVariable Long id, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("studentUser");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        Project project = projectService.findOne(id);
+        if (project.getUser().getUserId() != user.getUserId()) {
+            return "redirect:/project";
+        }
+        model.addAttribute("project", project);
+        model.addAttribute("showcases", showcaseService.findAll());
+        return "editProject";
     }
 
-    @PostMapping("/saveProject")
-    public ModelAndView saveOrUpdateProject(
-            @ModelAttribute("aProject") Project p,
-            @RequestParam(value = "projectHeroImageFile", required = false) MultipartFile file,
-            BindingResult result,
-            HttpSession session,
-            @CookieValue(value = "username", required = false) String username) {
-
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-        if (loggedInUser == null && username != null) {
-            User userFromCookie = userRepository.findByUserName(username);
-            if (userFromCookie != null) {
-                session.setAttribute("loggedInUser", userFromCookie);
-                loggedInUser = userFromCookie;
-            }
-        }
-
-        if (loggedInUser == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
-        p.setUser(loggedInUser);
-
-
-        if (result.hasErrors()) {
-            String viewName = (p.getProjectId() == null) ? "/addProject" : "/editProject";
-            return new ModelAndView(viewName);
-        }
-
+    @PostMapping("/edit")
+    public String editProject(@ModelAttribute Project project,
+                              @RequestParam("showcaseId") Long showcaseId,
+                              @RequestParam("projectHeroImageFile") MultipartFile file,
+                              HttpSession session) {
         try {
-            if (file != null && !file.isEmpty()) {
-                projectService.saveProjectWithImage(p, file);
-            } else {
-                projectService.updateProject(p);
+            User user = (User) session.getAttribute("studentUser");
+            if (user == null) {
+                return "redirect:/login";
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ModelAndView("/error", "error", "Image upload failed");
-        }
-
-        return new ModelAndView("redirect:/project");
+            projectService.updateProject(project, file, showcaseId, user);
+        } catch (Exception ignored) {}
+        return "redirect:/project";
     }
 
-
-    @PostMapping("/addProject")
-    public ModelAndView addProject(@ModelAttribute("newProject") @Valid Project project,
-                                   BindingResult result,
-                                   @RequestParam(value = "projectHeroImageFile", required = false) MultipartFile file,
-                                   HttpSession session) {
-
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-        if (loggedInUser == null) {
-            return new ModelAndView("redirect:/login");
+    @PostMapping("/delete")
+    public String deleteProject(@RequestParam Long id, HttpSession session) {
+        User user = (User) session.getAttribute("studentUser");
+        if (user == null) {
+            return "redirect:/login";
         }
-        project.setUser(loggedInUser);
-
-
-        if (result.hasErrors()) {
-            return new ModelAndView("/addProject", "newProject", project)
-                    .addObject("errors", result.getAllErrors());
-        } else {
-
-            try {
-                projectService.saveProjectWithImage(project, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new ModelAndView("/error", "error", "Image upload failed");
-            }
-
-            return new ModelAndView("redirect:/project/allProject");
+        Project project = projectService.findOne(id);
+        if (project.getUser().getUserId() != user.getUserId()) {
+            return "redirect:/project";
         }
+        projectService.delete(id);
+        return "redirect:/project";
     }
+
+    @GetMapping("/view/{id}")
+    public String viewProject(@PathVariable Long id, HttpSession session, Model model) {
+
+        Project project = projectService.findOne(id);
+        model.addAttribute("project", project);
+        return "viewProject";
+    }
+
     @GetMapping("/search")
-    public ModelAndView searchProducts(@RequestParam(value = "keyword", required = false) String keyword) {
-        List<Project> searchResults = projectService.searchProject(keyword);
-        return new ModelAndView("/project", "projects", searchResults);
+    public String search(@RequestParam String keyword, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("studentUser");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("projects", projectService.searchByName(keyword, user));
+        return "Project";
     }
-
-
 }

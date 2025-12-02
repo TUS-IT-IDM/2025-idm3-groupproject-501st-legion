@@ -40,7 +40,17 @@ public class LoginController {
             return "login";
         }
 
-        session.setAttribute("loggedInUser", user);
-        return "redirect:/MainGallery";
+        if ("Student".equalsIgnoreCase(user.getUserType())) {
+            session.setAttribute("studentUser", user);
+            return "redirect:/project";
+        }
+
+        if ("Employer".equalsIgnoreCase(user.getUserType())) {
+            session.setAttribute("employerUser", user);
+            return "redirect:/MainGallery";
+        }
+
+        model.addAttribute("error", "Invalid user type.");
+        return "login";
     }
 }

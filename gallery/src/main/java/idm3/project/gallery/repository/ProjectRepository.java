@@ -1,17 +1,14 @@
 package idm3.project.gallery.repository;
 
 import idm3.project.gallery.model.Project;
-import idm3.project.gallery.model.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-@Repository
-public interface ProjectRepository extends CrudRepository<Project, Long> {
-    List<Project> findByProjectNameContainingIgnoreCaseOrProjectDescriptionContainingIgnoreCase(
-            String name, String description);
+public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    List<Project> findByUser (User user);
+    List<Project> findByUser_UserId(Long userId);
+
+    List<Project> findByProjectNameContainingIgnoreCase(String name);
+
+    List<Project> findByShowcase_ShowcaseId(Long showcaseId);
 }
-

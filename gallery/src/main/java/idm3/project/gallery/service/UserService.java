@@ -10,12 +10,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Authenticate user
     public User authenticate(String username, String password) {
         return userRepository.findByUserNameAndPassword(username, password);
     }
 
-    // Register a new user
     public boolean registerUser(User user) {
         if (userRepository.existsByUserName(user.getUserName()) || userRepository.existsByEmailAddress(user.getEmailAddress())) {
             return false;
@@ -23,4 +21,9 @@ public class UserService {
         userRepository.save(user);
         return true;
     }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
 }
