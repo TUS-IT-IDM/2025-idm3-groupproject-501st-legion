@@ -24,9 +24,6 @@ public class MainGalleryController {
         this.showcaseService = showcaseService;
     }
 
-    // -------------------------
-    // HOMEPAGE (PUBLIC)
-    // -------------------------
     @GetMapping({"", "/", "/HomePage"})
     public ModelAndView showHomePage() {
 
@@ -35,7 +32,6 @@ public class MainGalleryController {
         List<Project> allProjects = projectService.findAll();
         List<Showcase> allShowcases = showcaseService.findAll();
 
-        // Final image paths for homepage thumbnails
         allProjects.forEach(project ->
                 project.setProjectHeroImage("/assets/images/projects/thumbnail/" + project.getProjectHeroImage()));
 
@@ -47,4 +43,5 @@ public class MainGalleryController {
 
         return mav;
     }
+
 }

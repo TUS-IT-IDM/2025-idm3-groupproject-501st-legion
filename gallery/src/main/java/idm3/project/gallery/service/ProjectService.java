@@ -46,6 +46,14 @@ public class ProjectService {
     }
 
     public void delete(Long id) {
+        Project project = findOne(id);
+
+        // BREAK FK LINK FIRST → prevents DB blocking delete
+        if (project.getShowcase() != null) {
+            project.setShowcase(null);
+            projectRepo.save(project);
+        }
+
         projectRepo.deleteById(id);
     }
 

@@ -27,18 +27,31 @@
     </a>
 
 
-    <nav class="nav-items" th:with="employer=${session.employerUser}, student=${session.studentUser}, admin=${session.adminUser}">
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
+
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
+
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
+
         <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer}">Employer Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer/notes}">View All Notes</a>
+
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
+
         <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
+
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
+
 </header>
 
 
@@ -91,77 +104,6 @@
                 </div>
             </div>
         </div>
-
-
-        <!-- SAVED PROJECTS -->
-        <h3 class="section-title" style="margin-top:50px;">Saved Projects</h3>
-
-        <div class="cards-container">
-            <div class="card" th:each="note : ${savedProjects}">
-
-                <img th:src="@{'/assets/images/projects/thumbnail/' + ${note.project.projectHeroImage}}"/>
-
-                <h4 th:text="${note.project.projectName}"></h4>
-                <p th:text="${note.project.projectDescriptionSummary}"></p>
-
-                <div class="card-buttons">
-
-                    <!-- View -->
-                    <a th:href="@{'/project/view/' + ${note.project.projectId}}"
-                       class="btn-view">
-                        <i class="fa-solid fa-eye"></i> View
-                    </a>
-
-                    <!-- Remove -->
-                    <form th:action="@{/employer/remove}" method="post" style="flex:1;">
-                        <input type="hidden" name="projectId"
-                               th:value="${note.project.projectId}"/>
-                        <button type="submit" class="btn-delete">
-                            <i class="fa-solid fa-trash"></i> Remove
-                        </button>
-                    </form>
-
-                </div>
-
-                <!-- NOTES SECTION -->
-                <form th:action="@{/employer/note}" method="post" style="margin-top:15px;">
-                <textarea class="form-control"
-                name="noteText"
-              placeholder="Write notes..."
-              style="height:100px;"
-              th:text="${note.noteText}"></textarea>
-
-                    <input type="hidden"
-                           name="projectId"
-                           th:value="${note.project.projectId}"/>
-
-                    <button type="submit"
-                            class="btn-custom"
-                            style="margin-top:10px;">
-                        Save Note
-                    </button>
-                </form>
-
-                <!-- PREVIOUS NOTES -->
-                <div style="margin-top:15px;">
-                    <h6 style="font-weight:700;color:var(--accent);margin-bottom:8px;">
-                        Previous Notes
-                    </h6>
-
-                    <!-- Loop ALL notes and show only the ones belonging to this project -->
-                    <div th:each="n : ${savedProjects}"
-                         th:if="${n.project.projectId == note.project.projectId}">
-                        <div class="p-2"
-                             style="background:#fff;border:1px solid var(--border-col);border-radius:6px;margin-bottom:8px;">
-                            <small th:text="${n.noteText}"></small>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
     </div>
 </main>
 

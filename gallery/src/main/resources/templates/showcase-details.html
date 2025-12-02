@@ -29,30 +29,28 @@
                   admin=${session.adminUser}">
 
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
 
-        <!-- Logged-out -->
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
 
-        <!-- Student -->
         <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
 
-        <!-- Employer -->
-        <a th:if="${employer != null}" th:href="@{/employer}">Employer Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer/notes}">View All Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
 
-        <!-- Admin -->
         <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
 
-        <!-- Logout -->
-        <a th:if="${admin != null or employer != null or student != null}"
-           th:href="@{/logout}">
-            Logout
-        </a>
-
+        <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
+
+
+
+
 </header>
 
 
@@ -85,6 +83,7 @@
 
         <div class="projects-container">
             <div class="project-card" th:each="project : ${projects}">
+
                 <img th:if="${project.projectHeroImage != null}"
                      th:src="@{'/uploads/thumbs/' + ${project.projectHeroImage}}"
                      alt="Project Thumbnail">
@@ -96,8 +95,24 @@
                     <span th:text="${project.category}"></span>
                     <span th:text="${#dates.format(project.creationDate, 'dd/MM/yyyy')}"></span>
                 </div>
+
+                <div class="mt-2">
+                    <a th:href="@{'/project/view/' + ${project.projectId}}"
+                       class="btn-view">
+                        <i class="fa fa-eye"></i> View
+                    </a>
+                </div>
+
+                <div th:if="${session.adminUser != null}" class="mt-2">
+                    <a th:href="@{'/showcases/' + ${showcase.showcaseId} + '/project/delete/' + ${project.projectId}}"
+                       class="btn-delete">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
+
             </div>
         </div>
+
 
         <div class="details-actions">
             <a href="/showcases" class="btn-orange-secondary back-btn">

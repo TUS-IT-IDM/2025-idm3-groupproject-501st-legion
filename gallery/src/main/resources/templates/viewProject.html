@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Project Details</title>
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/lcstyle.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+          rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/lcstyle.css" />
 </head>
 
 <body>
@@ -20,70 +21,95 @@
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
              alt="Company Logo"
-             class="logo-img" style="width:250px;height:100px;" />
+             class="logo-img"
+             style="width:250px;height:100px;" />
     </a>
 
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
 
-    <nav class="nav-items" th:with="employer=${session.employerUser}, student=${session.studentUser}, admin=${session.adminUser}">
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
-        <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
+
+        <a th:if="${admin == null && employer == null && student == null}" th:href="@{/register}">Register</a>
+        <a th:if="${admin == null && employer == null && student == null}" th:href="@{/login}">Sign-In</a>
+
         <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer}">Employer Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer/notes}">View All Notes</a>
+
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
+
         <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
+
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
-
 </header>
 
+
 <main>
-    <div class="dashboard-container">
+    <h2 class="section-title">Project Details</h2>
 
-        <h2 class="section-title">Project Details</h2>
+    <div class="details-card">
 
-        <div class="details-card">
+        <div class="details-header">
 
-            <div class="details-header">
+            <img th:if="${project.projectHeroImage != null}"
+                 th:src="@{'/assets/images/projects/thumbnail/' + ${project.projectHeroImage}}"
+                 alt="Project Image"
+                 class="showcase-full-img" />
 
-                <img th:src="${project.projectHeroImage != null ? '/assets/images/projects/' + project.projectHeroImage : '/assets/images/defaults/noimage.png'}"
-                     alt="Project Image">
+            <div class="info">
+                <h3 th:text="${project.projectName}">Project Name</h3>
 
-                <div class="info">
-                    <h3 th:text="${project.projectName}"></h3>
+                <div class="meta">
+                    <span>
+                        <strong>Category:</strong>
+                        <span th:text="${project.category}"></span>
+                    </span>
 
-                    <div class="meta">
-                        <span><strong>Category:</strong> <span th:text="${project.category}"></span></span>
-
-                        <span>
-                            <strong>Showcase:</strong>
-                            <span th:text="${project.showcase != null ? project.showcase.name : 'No Showcase Assigned'}"></span>
-                        </span>
-
-                        <span><strong>Created:</strong> <span th:text="${project.creationDate}"></span></span>
-                    </div>
+                    <span>
+                        <strong>Created:</strong>
+                        <span th:text="${#dates.format(project.creationDate, 'dd/MM/yyyy')}"></span>
+                    </span>
                 </div>
+
+                <div class="description mt-3">
+                    <h4>Description</h4>
+                    <p th:text="${project.projectDescription}"></p>
+                </div>
+
             </div>
+        </div>
 
-            <div class="description">
-                <h4>Description</h4>
-                <p th:text="${project.projectDescription}"></p>
-            </div>
+        <div class="description mt-4">
+            <h4>Short Summary</h4>
+            <p th:text="${project.projectDescriptionSummary}"></p>
+        </div>
 
-            <a th:href="@{/project}" class="back-btn">← Back to Projects</a>
 
+        <div class="details-actions">
+            <a th:href="@{/MainGallery}" class="btn-orange-secondary back-btn">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
         </div>
 
     </div>
+
 </main>
+
 
 <footer class="footer">
     <div class="footer-left">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+             alt="Company Logo"
+             class="logo-img" style="width:150px;height:50px;" />
         <div class="copy">© 2025 TUS Horizons</div>
     </div>
 
@@ -107,7 +133,7 @@
 </footer>
 
 <div class="footer-admin">
-    <a th:href="@{/adminlogin}" href="/adminlogin.html">Admin Sign-In</a>
+    <a th:href="@{/adminlogin}">Admin Sign-In</a>
 </div>
 
 </body>

@@ -54,7 +54,7 @@ public class ProjectController {
                 return "redirect:/login";
             }
             projectService.addProject(project, file, showcaseId, user);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {}
         return "redirect:/project";
     }
 
@@ -84,7 +84,7 @@ public class ProjectController {
                 return "redirect:/login";
             }
             projectService.updateProject(project, file, showcaseId, user);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {}
         return "redirect:/project";
     }
 
@@ -105,25 +105,10 @@ public class ProjectController {
     @GetMapping("/view/{id}")
     public String viewProject(@PathVariable Long id, HttpSession session, Model model) {
 
-        User student = (User) session.getAttribute("studentUser");
-        User employer = (User) session.getAttribute("employerUser");
-
-        if (student == null && employer == null) {
-            return "redirect:/login";
-        }
-
         Project project = projectService.findOne(id);
-
-        if (student != null) {
-            if (project.getUser() == null || project.getUser().getUserId() != student.getUserId()) {
-                return "redirect:/project";
-            }
-        }
-
         model.addAttribute("project", project);
         return "viewProject";
     }
-
 
     @GetMapping("/search")
     public String search(@RequestParam String keyword, HttpSession session, Model model) {

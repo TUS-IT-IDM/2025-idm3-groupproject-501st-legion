@@ -23,18 +23,31 @@
              alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
     </a>
 
-    <nav class="nav-items" th:with="employer=${session.employerUser}, student=${session.studentUser}, admin=${session.adminUser}">
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
+
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
+
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
+
         <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer}">Employer Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer/notes}">View All Notes</a>
+
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
+
         <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
+
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
+
 
 </header>
 

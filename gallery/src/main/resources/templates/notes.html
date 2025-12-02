@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>All Notes</title>
+    <title>Saved Projects & Notes</title>
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,6 +14,7 @@
 
 <body>
 
+<!-- HEADER -->
 <header class="header">
     <a href="#" class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
@@ -22,51 +23,118 @@
              style="width:250px;height:100px;" />
     </a>
 
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
 
-    <nav class="nav-items" th:with="employer=${session.employerUser}, student=${session.studentUser}, admin=${session.adminUser}">
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
+
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
+
         <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer}">Employer Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer/notes}">View All Notes</a>
+
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
+
         <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
+
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
-
 </header>
 
+
+<!-- MAIN -->
 <main class="dashboard-container">
 
-    <h2 class="section-title">All Notes</h2>
+    <h2 class="section-title">Saved Projects & Notes</h2>
 
     <div class="cards-container">
 
+        <!-- ONE CARD PER PROJECT -->
         <div class="card" th:each="note : ${notes}">
 
-            <h4 th:text="${note.project.projectName}"></h4>
+            <!-- Image -->
+            <img th:src="@{'/assets/images/projects/thumbnail/' + ${note.project.projectHeroImage}}"
+                 class="card-img-top"
+                 alt="Project Image">
 
-            <p th:text="${note.noteText}"></p>
+            <!-- Title -->
+            <h4 th:text="${note.project.projectName}" style="margin-top:15px;"></h4>
 
-            <small style="color:gray;"
-                   th:text="'Created: ' + ${note.createdAt}">
-            </small>
+            <!-- Summary -->
+            <p th:text="${note.project.projectDescriptionSummary}"></p>
+
+            <!-- Buttons -->
+            <div class="card-buttons">
+
+                <!-- View -->
+                <a th:href="@{'/project/view/' + ${note.project.projectId}}"
+                   class="btn-view">
+                    <i class="fa-solid fa-eye"></i> View
+                </a>
+
+                <!-- Remove saved -->
+                <form th:action="@{/employer/remove}" method="post" style="flex:1;">
+                    <input type="hidden" name="projectId" th:value="${note.project.projectId}">
+                    <button type="submit" class="btn-delete">
+                        <i class="fa-solid fa-trash"></i> Unsave
+                    </button>
+                </form>
+
+            </div>
+
+            <!-- NOTES SECTION -->
+            <div class="notes-section" style="margin-top:20px;">
+
+                <h5 style="font-weight:700; color:var(--accent); margin-bottom:10px;">
+                    Notes
+                </h5>
+
+                <!-- Update Note -->
+                <form th:action="@{/employer/note}" method="post">
+                    <textarea class="form-control"
+                              name="noteText"
+                              placeholder="Write a note..."
+                              style="height:120px;">[[${note.noteText}]]</textarea>
+
+                    <input type="hidden" name="projectId" th:value="${note.project.projectId}">
+
+                    <button type="submit" class="btn-custom" style="margin-top:10px;">
+                        Save Note
+                    </button>
+                </form>
+
+                <!-- Delete Note (only if a note exists) -->
+                <form th:if="${note.noteText != null and note.noteText != ''}"
+                      th:action="@{/employer/note/delete}" method="post" style="margin-top:10px;">
+                    <input type="hidden" name="projectId" th:value="${note.project.projectId}">
+                    <button type="submit" class="btn-delete">
+                        <i class="fa-solid fa-xmark"></i> Delete Note
+                    </button>
+                </form>
+
+            </div>
 
         </div>
-
     </div>
 
 </main>
 
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-left">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
              class="logo-img"
-             style="width:250px;height:100px;">
+             style="width:150px;height:50px;">
         <div class="copy">© 2025 TUS Horizons</div>
     </div>
 
