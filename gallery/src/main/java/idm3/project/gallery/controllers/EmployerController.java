@@ -30,8 +30,6 @@ public class EmployerController {
             return new ModelAndView("redirect:/login");
         }
 
-        Long employerId = ((idm3.project.gallery.model.User) userObj).getUserId();
-
         List<Project> allProjects = employerService.findAllProjects();
 
         ModelAndView mv = new ModelAndView("employer");

@@ -58,7 +58,7 @@ public class ProjectController {
                 return "redirect:/login";
             }
             projectService.addProject(project, file, showcaseId, user);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {}
         return "redirect:/project";
     }
 

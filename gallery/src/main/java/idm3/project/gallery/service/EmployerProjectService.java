@@ -66,6 +66,9 @@ public class EmployerProjectService {
         noteRepo.save(note);
     }
 
+    // ----------------------------
+    //  NEW: Filter + group correctly
+    // ----------------------------
     public List<ProjectNote> getUniqueSavedProjects(Long employerId) {
 
         List<ProjectNote> all = noteRepo.findByUserId(employerId).stream()
@@ -93,11 +96,13 @@ public class EmployerProjectService {
     public void deleteNote(Long projectId, Long employerId) {
 
 
+        // Find the note row for this employer & project
         List<ProjectNote> notes =
                 noteRepo.findByUserIdAndProject_ProjectId(employerId, projectId);
 
         for (ProjectNote note : notes) {
 
+            // Only delete actual notes, not the saved-project row
             if (note.getNoteText() != null && !note.getNoteText().isBlank()) {
                 note.setNoteText(null); // Remove note text
             }
@@ -110,4 +115,23 @@ public class EmployerProjectService {
     public List<ProjectNote> getAllNotesForEmployer(Long employerId) {
         return noteRepo.findByUserId(employerId);
     }
+
+    public List<Project> searchProjects(String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return projectRepo.findAll();
+        }
+
+        String lower = keyword.toLowerCase();
+
+        return projectRepo.findAll().stream()
+                .filter(p ->
+                        (p.getProjectName() != null && p.getProjectName().toLowerCase().contains(lower)) ||
+                                (p.getProjectDescriptionSummary() != null &&
+                                        p.getProjectDescriptionSummary().toLowerCase().contains(lower)) ||
+                                (p.getCategory() != null && p.getCategory().toLowerCase().contains(lower))
+                )
+                .toList();
+    }
+
 }

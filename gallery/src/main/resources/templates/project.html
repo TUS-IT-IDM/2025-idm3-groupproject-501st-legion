@@ -21,6 +21,10 @@
              alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
     </a>
 
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
 
     <nav class="nav-items"
          th:with="employer=${session.employerUser},
@@ -55,10 +59,14 @@
     <div class="dashboard-container">
         <h2 class="section-title">Project Management</h2>
 
+        <!-- SEARCH BAR -->
         <div class="mb-4 text-center">
             <form th:action="@{/project/search}" method="get" class="search-bar-wrapper">
-                <input type="text" name="keyword" placeholder="Search projects..."
-                       class="search-input" required>
+                <input type="text"
+                       name="keyword"
+                       placeholder="Search projects..."
+                       class="search-input"
+                       th:value="${keyword}" />
 
                 <button type="submit" class="search-btn">
                     Search
@@ -108,7 +116,6 @@
 
             </div>
         </div>
-
     </div>
 </main>
 
