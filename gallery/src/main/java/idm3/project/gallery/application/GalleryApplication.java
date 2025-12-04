@@ -19,40 +19,37 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("idm3.project.gallery.repository")
 
 public class GalleryApplication implements CommandLineRunner {
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private ProjectRepository projectRepository;
-	@Autowired
-	private ShowcaseRepository showcaseRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private ShowcaseRepository showcaseRepository;
 
-	private static final Logger log = LoggerFactory.getLogger(GalleryApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(GalleryApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(GalleryApplication.class, args);
-	}
-	public void run(String... args) throws Exception {
-		//fetch all projects
-		log.info("all users found with findAll():");
-		log.info("-------------------------------");
-		userRepository.findAll().forEach(user -> {
-			log.info(user.toString());
-		});
-		log.info("");
-		//fetch all projects
-		log.info("all projects found with findAll():");
-		log.info("-------------------------------");
-		projectRepository.findAll().forEach(project -> {
-			log.info(project.toString());
-		});
-		log.info("");
+    public static void main(String[] args) {
+        SpringApplication.run(GalleryApplication.class, args);
+    }
+    public void run(String... args) throws Exception {
+        log.info("all users found with findAll():");
+        log.info("-------------------------------");
+        userRepository.findAll().forEach(user -> {
+            log.info(user.toString());
+        });
+        log.info("");
+        log.info("all projects found with findAll():");
+        log.info("-------------------------------");
+        projectRepository.findAll().forEach(project -> {
+            log.info(project.toString());
+        });
+        log.info("");
 
-//		//fetch all showcases
-		log.info("all showcases found with findAll():");
-		log.info("-------------------------------");
-		showcaseRepository.findAll().forEach(showcase -> {
-			log.info(showcase.toString());
-		});
-		log.info("");
-	}
+        log.info("all showcases found with findAll():");
+        log.info("-------------------------------");
+        showcaseRepository.findAll().forEach(showcase -> {
+            log.info(showcase.toString());
+        });
+        log.info("");
+    }
 }

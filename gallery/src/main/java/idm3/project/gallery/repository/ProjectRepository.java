@@ -1,14 +1,14 @@
 package idm3.project.gallery.repository;
 
 import idm3.project.gallery.model.Project;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-@Repository
-public interface ProjectRepository extends CrudRepository<Project, Long> {
-    // Find all projects ordered by creation date descending
-    List<Project> findAllByOrderByCreationDateDesc();
-}
+public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+    List<Project> findByUser_UserId(Long userId);
+
+    List<Project> findByProjectNameContainingIgnoreCase(String name);
+
+    List<Project> findByShowcase_ShowcaseId(Long showcaseId);
+}
