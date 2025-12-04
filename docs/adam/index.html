@@ -1,22 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDM3 Group Project</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" type="text/css" href="css/adamstyle.css">
+  
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
+<!-- Main content section -->
 <body>
-    <header>
-        <h1>Welcome to IDM3 Group Project</h1>
-        <h2>Adam</h2>
-    </header>
-    <main>
-        <p>This is the starter index page for your group project.</p>
-        <p>test</p>
-    </main>
-    <footer>
-        <p>&copy; 2025 IDM3 Group Project</p>
-    </footer>
+  <header class="header">
+    <a href="#" class="logo">
+      <img src="image/LogoComputer.png" alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+    </a>
+
+    <nav class="nav-items">
+      <a href="index.html">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="register.html">Register</a>
+      <a href="login.html" class="active">Sign-In</a>
+
+      <div class="icon-button">
+        <a href="#"><i class="fas fa-user"></i></a>
+      </div>
+
+      <div class="icon-button">
+        <a href="#"><i class="fas fa-search"></i></a>
+      </div>
+    </nav>
+  </header>
+  <main>
+
+    
+ 
+
+ 
+<!-- Carousel -->
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+  <!-- Indicators/dots -->
+  <div class="col-lg-4 col-md-2 col-sm-12 mt-3">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+  </div>
+  </div>
+
+  <!-- The slideshow/carousel -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="image/artshowcase.jpg" alt="Art" class="d-block w-100">
+      <div class="carousel-caption">
+         <h1>ART SHOWCASE</h1>
+         <a href="#" class="btn btn-custom">Browse the showcase</a>
+     </div>
+    </div>
+
+<!-- More carousel items with captions -->
+    <div class="carousel-item">
+      <img src="image/chemshowcase.jpg" alt="Chemistry" class="d-block w-100">
+      <div class="carousel-caption">
+         <h1>BIO-PHARMA SHOWCASE</h1>
+         <a href="#" class="btn btn-custom">Browse the showcase</a>
+     </div>
+    </div>
+    <div class="carousel-item">
+      <img src="image/politicshowcase.jpg" alt="Politics" class="d-block w-100">
+      <div class="carousel-caption">
+         <h1>POLITICS SHOWCASE</h1>
+         <a href="#" class="btn btn-custom">Browse the showcase</a>
+     </div>
+    </div>
+  </div>
+
+  <!-- Left and right controls/icons -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- Container for the "Projects," "Connect," and "Network" sections -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="work text-center"> <!-- Added text-center class -->
+      <i class="fas fa-layer-group" style="font-size: 2rem; margin-top: 20px;"></i>
+      <p class="work-heading" style="font-size: 24px;"><strong>Projects</strong></p>
+      <p class="work-text">Our mission is to provide a stage where students can showcase their creativity, skills, and innovative projects to a global audience.</p>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="work text-center"> <!-- Added text-center class -->
+        <i class="fas fa-seedling" style="font-size: 2rem; margin-top: 20px;"></i> <!-- Adjusted icon size -->
+        <p class="work-heading" style="font-size: 24px;"><strong>Connect</strong></p> <!-- Adjusted font size -->
+        <p class="work-text">We are a dynamic platform proudly offered by TUS, dedicated to empowering students and bridging the gap between education and industry.</p>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="work text-center"> <!-- Added text-center class -->
+        <i class="fas fa-circle-nodes" style="font-size: 2rem; margin-top: 20px;"></i>
+        <p class="work-heading" style="font-size: 24px;"><strong>Network</strong></p> <!-- Adjusted font size -->
+        <p class="work-text">If you're an employer seeking the brightest minds, TUS Gallery is your trusted partner on this exciting educational and professional adventure.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Container for the "Recently Added Projects" section -->
+<div class="container mt-4">
+  <h3 class="text-left mb-4">Recently Added Projects</h3>
+  <div class="row">
+    <!-- Cards for recently added projects -->
+    <!-- Adjusted the card styling -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card" style="width:400px">
+      <img class="card-img-top" src="image/artshowcase.jpg" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">Project</h5>
+          <p class="card-text">Content for Card 1.</p>
+          <a href="#" class="btn btn-custom">See Project</a>
+        </div>
+      </div>
+    </div>
+<!-- More cards for recently added projects -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card" style="width:400px">
+      <img class="card-img-top" src="image/artshowcase.jpg" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">Project</h5>
+          <p class="card-text">Content for Card 2.</p>
+          <a href="#" class="btn btn-custom">See Project</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card" style="width:400px">
+      <img class="card-img-top" src="image/artshowcase.jpg" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">Project</h5>
+          <p class="card-text">Content for Card 3.</p>
+          <a href="#" class="btn btn-custom">See Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card" style="width:400px">
+      <img class="card-img-top" src="image/artshowcase.jpg" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">Project</h5>
+          <p class="card-text">Content for Card 4.</p>
+          <a href="#" class="btn btn-custom">See Project</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card" style="width:400px">
+      <img class="card-img-top" src="image/artshowcase.jpg" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">Project</h5>
+          <p class="card-text">Content for Card 5.</p>
+          <a href="#" class="btn btn-custom">See Project</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card" style="width:400px">
+      <img class="card-img-top" src="image/artshowcase.jpg" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">Project</h5>
+          <p class="card-text">Content for Card 6.</p>
+          <a href="#" class="btn btn-custom">See Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Container for the pagination -->
+<div class="container mt-3">              
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+  </ul>
+</div>
+
+
+</main>
+<footer class="footer">
+    <div class="footer-left">
+      <img src="image/LogoComputer.png" alt="logo" class="footer-logo" style="width:200px;height:100px;"/>
+      <div class="copy">© 2025 TUS Horizons</div>
+    </div>
+
+    <div class="footer-center">
+      <div class="links">
+        <span>More Info</span>
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <div class="links">
+        <span>Social Links</span>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+<!-- Discreet Admin Sign-In link below footer -->
+<div class="footer-admin">
+  <a href="adminlogin.html">Admin Sign-In</a>
+</div>
+
+
 </body>
+
 </html>
