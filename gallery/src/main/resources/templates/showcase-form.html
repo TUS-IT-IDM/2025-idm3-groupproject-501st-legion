@@ -17,8 +17,8 @@
 <body>
 
 <header class="header">
-    <a href="#" class="logo">
-        <img src="/assets/images/logo/LogoComputer.png" class="logo-img" style="width:250px;height:100px;">
+    <a th:href="@{/MainGallery} " class="logo">
+        <img src="/assets/images/logo/LogoComputer.png" class="logo-img" style="width:200px;height:100px;">
     </a>
 
     <nav class="nav-items"
@@ -49,8 +49,10 @@
 
 </header>
 
-<main class="login-page">
-    <h1 class="page-title" th:text="${showcase.showcaseId == 0 ? 'Add Showcase' : 'Edit Showcase'}"></h1>
+<main>
+    <div class="dashboard-container">
+        <h2 class="section-title"th:text="${showcase.showcaseId == 0 ? 'Add Showcase' : 'Edit Showcase'}"></h2>
+
 
     <div class="login-container">
 
@@ -91,18 +93,22 @@
 
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -114,11 +120,8 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
-</footer>
 
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}">Admin Sign-In</a>
-</div>
+</footer>
 
 </body>
 </html>

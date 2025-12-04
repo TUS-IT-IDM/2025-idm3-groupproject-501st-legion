@@ -105,6 +105,9 @@ public class ProjectService {
 
         projectRepo.save(project);
     }
+    public void addProject(Project project, MultipartFile file) {
+        projectRepo.save(project);
+    }
 
     public void updateProject(Project incoming,
                               MultipartFile file,

@@ -38,23 +38,6 @@ public class EmployerController {
         return mv;
     }
 
-    @GetMapping("/search")
-    public ModelAndView search(@RequestParam("keyword") String keyword, HttpSession session) {
-
-        Object userObj = session.getAttribute("employerUser");
-        if (userObj == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
-        List<Project> results = employerService.searchProjects(keyword);
-
-        ModelAndView mv = new ModelAndView("employer");
-        mv.addObject("projects", results);
-        mv.addObject("searchKeyword", keyword);
-
-        return mv;
-    }
-
     @PostMapping("/save")
     public String save(@RequestParam Long projectId, HttpSession session) {
         Long employerId = ((idm3.project.gallery.model.User) session.getAttribute("employerUser")).getUserId();
@@ -102,4 +85,5 @@ public class EmployerController {
 
         return "redirect:/employer/notes";
     }
+
 }

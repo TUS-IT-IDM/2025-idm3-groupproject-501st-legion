@@ -15,11 +15,16 @@
 <body>
 
 <header class="header">
-    <a href="#" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
     </a>
+
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
 
     <nav class="nav-items"
          th:with="employer=${session.employerUser},
@@ -45,6 +50,8 @@
 
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
+
+
 </header>
 
 
@@ -67,17 +74,9 @@
             </form>
         </div>
 
-        <a th:href="@{/project/add}" class="btn btn-custom mb-3" style="display:inline-block;">
-            + Add Project
+        <a th:href="@{/project/add}" class="btn-orange-primary "><i class="fa-solid fa-plus" style="margin-right: 6px;" ></i>
+            Add Project
         </a>
-
-        <!-- WHEN NO PROJECTS MATCH SEARCH -->
-        <div th:if="${projects != null and #lists.isEmpty(projects)}"
-             class="alert alert-warning text-center">
-            No projects found.
-        </div>
-
-        <!-- PROJECT CARDS -->
         <div class="cards-container">
             <div class="card" th:each="project : ${projects}">
 
@@ -93,23 +92,23 @@
                     <span><strong>Date:</strong> <span th:text="${project.creationDate}"></span></span>
                 </div>
 
-                <div class="card-buttons">
+                <div class="card-buttons" style="margin-top: 6px;">
 
                     <a th:href="@{/project/view/{id}(id=${project.projectId})}"
                        class="btn-view">
-                        <i class="fa-solid fa-eye"></i> View
+                        <i class="fa-solid fa-eye" style="margin-right: 6px;"></i> View
                     </a>
 
                     <a th:href="@{/project/edit/{id}(id=${project.projectId})}"
                        class="btn-edit">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                        <i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> Edit
                     </a>
 
                     <form th:action="@{/project/delete}" method="post"
                           onsubmit="return confirm('Delete this project?');" style="flex:1;">
                         <input type="hidden" name="id" th:value="${project.projectId}">
-                        <button type="submit" class="btn-delete" style="width:100%;">
-                            <i class="fa-solid fa-trash"></i> Delete
+                        <button type="submit" class="btn-delete">
+                            <i class="fa-solid fa-trash" style="margin-right: 6px;"></i> Delete
                         </button>
                     </form>
 
@@ -121,20 +120,25 @@
 </main>
 
 
+
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -146,11 +150,8 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
-</footer>
 
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}" href="/adminlogin.html">Admin Sign-In</a>
-</div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -29,6 +29,9 @@ public class ShowcaseService {
         return StreamSupport.stream(showcaseRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
+    public Showcase findById(Long id) {
+        return showcaseRepository.findById(id).orElse(null);
+    }
 
     public Showcase saveShowcase(Showcase showcase, MultipartFile imageFile) {
 
@@ -64,9 +67,6 @@ public class ShowcaseService {
         showcaseRepository.deleteById(id);
     }
 
-    public Showcase findById(Long id) {
-        return showcaseRepository.findById(id).orElse(null);
-    }
 
     public List<Showcase> searchByName(String keyword) {
         return showcaseRepository.findByNameContainingIgnoreCase(keyword);

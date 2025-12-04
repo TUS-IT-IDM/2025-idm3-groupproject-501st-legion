@@ -13,12 +13,12 @@
 <body>
 
 <header class="header">
-    <a href="/" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
              alt="Company Logo"
              class="logo-img"
-             style="width:250px;height:100px;">
+             style="width:200px;height:100px;">
     </a>
 
     <nav class="nav-items"
@@ -56,38 +56,35 @@
         background-position: center;
         color: #fff;
         text-align: center;">
-    <h1 style="font-size: 2.6rem; font-weight: 700;">About TUS Horizons</h1>
+    <h1 style="font-size: 2.6rem; font-weight: 600;">About TUS Horizons</h1>
     <p style="max-width: 700px; margin: 15px auto;">
         A digital gallery showcasing the creativity and innovation of students at TUS Midwest.
     </p>
 </section>
 
-<div class="container mt-5 mb-5">
-    <div class="details-card" style="max-width: 900px; margin: 0 auto;">
-        <h2 class="section-title" style="margin-bottom: 20px;">Our Mission</h2>
+<div class="container mt-5 " style="margin-bottom: 70px;">
+    <h2 class="text-center mb-3">Our Mission</h2>
+    <p class="text-center" style="max-width: 800px; margin: 0 auto 25px;">
+        Horizons is a platform created to highlight student achievements across a wide range
+        of creative and technical disciplines. It offers a central space where work across design,
+        programming, animation, visual media, and innovation can be experienced by peers, staff,
+        and industry professionals.
+    </p>
+    <p class="text-center " style="max-width: 800px; margin: 0 auto;">
+        The goal is to support the development of student portfolios and provide a modern showcase
+        where outstanding work can gain visibility beyond the classroom.
+    </p>
 
-        <p>
-            TUS Horizons is a platform created to highlight student achievements across a wide range
-            of creative and technical disciplines. It offers a central space where work across design,
-            programming, animation, visual media, and innovation can be experienced by peers, staff,
-            and industry professionals.
-        </p>
-
-        <p>
-            The goal is to support the development of student portfolios and provide a modern showcase
-            where outstanding work can gain visibility beyond the classroom.
-        </p>
-    </div>
 </div>
 
 <div class="container mt-5">
-    <h2 class="section-title text-center">What We Value</h2>
+    <h2 class="text-center mb-3">What We Value</h2>
 
     <div class="row mt-4">
 
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="details-card" style="text-align: center;">
-                <i class="fas fa-lightbulb" style="font-size: 2rem; color: var(--accent);"></i>
+                <i class="fas fa-lightbulb" style="font-size: 2rem; color: #1C1C2E;"></i>
                 <h4 style="margin-top: 15px;">Creativity</h4>
                 <p>
                     Encouraging new ideas, bold concepts, and expressive digital storytelling.
@@ -97,7 +94,7 @@
 
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="details-card" style="text-align: center;">
-                <i class="fas fa-code" style="font-size: 2rem; color: var(--accent);"></i>
+                <i class="fas fa-code" style="font-size: 2rem; color:  #1C1C2E;"></i>
                 <h4 style="margin-top: 15px;">Innovation</h4>
                 <p>
                     Promoting modern technical skills and forward-thinking solutions across all disciplines.
@@ -107,7 +104,7 @@
 
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="details-card" style="text-align: center;">
-                <i class="fas fa-users" style="font-size: 2rem; color: var(--accent);"></i>
+                <i class="fas fa-users" style="font-size: 2rem; color:  #1C1C2E;"></i>
                 <h4 style="margin-top: 15px;">Community</h4>
                 <p>
                     Connecting students, educators, and industry to strengthen future opportunities.
@@ -118,40 +115,39 @@
     </div>
 </div>
 
-<div class="container mt-5 mb-5">
-    <h2 class="section-title text-center">The Horizons Platform</h2>
+<div class="container mt-5 " style="margin-bottom: 70px;">
+    <h2 class="text-center mb-3">The Horizons Platform</h2>
+    <p class="text-center" style="max-width: 800px; margin: 0 auto 25px;">
+        The Horizons platform was developed to modernize how student work is presented, stored,
+        and shared. It provides an accessible interface through which employers, lecturers, and
+        students can engage with high-quality academic projects.
+    </p>
+    <p class="text-center " style="max-width: 800px; margin: 0 auto;">
+        Built using modern web technologies and continually improved, the system reflects TUS
+        Midwest’s commitment to digital innovation and student success.
+    </p>
 
-    <div class="details-card" style="max-width:900px;margin:0 auto;">
-
-        <p>
-            The Horizons platform was developed to modernize how student work is presented, stored,
-            and shared. It provides an accessible interface through which employers, lecturers, and
-            students can engage with high-quality academic projects.
-        </p>
-
-        <p>
-            Built using modern web technologies and continually improved, the system reflects TUS
-            Midwest’s commitment to digital innovation and student success.
-        </p>
-    </div>
 </div>
+
 
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo"
-             class="logo-img"
-             style="width:150px;height:50px;">
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a th:href="@{/about}">About</a>
-            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -163,11 +159,9 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
+
 </footer>
 
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}">Admin Sign-In</a>
-</div>
 
 </body>
 </html>

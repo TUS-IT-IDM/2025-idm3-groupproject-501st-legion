@@ -10,13 +10,11 @@ import java.io.IOException;
 public class ThumbnailService {
 
     public void generateThumbnail(File inputFile, File outputFile) throws IOException {
-        // Generate thumbnail (e.g., 150x150)
         Thumbnails.of(inputFile)
                 .forceSize(200, 200)
                 .toFile(outputFile);
     }
     public void  generateThumbnailShowcase(File inputFile, File outputFile) throws IOException {
-        // Generate thumbnail (e.g., 150x150)
         Thumbnails.of(inputFile)
                 .forceSize(1000, 370)
                 .toFile(outputFile);

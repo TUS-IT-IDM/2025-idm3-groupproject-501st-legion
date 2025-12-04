@@ -10,9 +10,9 @@
 <body>
 
 <header class="header">
-    <a href="#" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}" src="/assets/images/logo/LogoComputer.png"
-             class="logo-img" style="width:250px;height:100px;" />
+             class="logo-img" style="width:200px;height:100px;" />
     </a>
 
     <nav class="nav-items"
@@ -52,25 +52,34 @@
         <p><strong>Email:</strong> <span th:text="${employer.emailAddress}"></span></p>
         <p><strong>Organisation:</strong> <span th:text="${employer.organization}"></span></p>
 
-        <a th:href="@{/employer/profile/edit}" class="btn-orange-primary mt-3">Edit Profile</a>
+
+        <div class="details-actions">
+            <a th:href="@{/employer/profile/edit}" class="btn-orange-primary">Edit Profile</a>
+
+    </div>
     </div>
 </div>
 
+
+
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo"
-             class="logo-img" style="width:150px;height:50px;" />
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -82,6 +91,7 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
+
 </footer>
 
 </body>

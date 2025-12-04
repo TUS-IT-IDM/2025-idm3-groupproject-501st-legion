@@ -17,10 +17,10 @@
 <body>
 
 <header class="header">
-    <a href="#" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;">
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;">
     </a>
 
     <nav class="nav-items"
@@ -49,13 +49,6 @@
     </nav>
 </header>
 
-<section class="text-center" style="padding:80px 20px;background:#fff;">
-    <h1 style="font-weight:700;color:var(--accent);font-size:2.6rem;">Welcome to TUS Horizons</h1>
-    <p style="font-size:1.2rem;margin-top:15px;width:70%;margin-left:auto;margin-right:auto;">
-        Explore exceptional work created by students across digital media, design, software, games,
-        and immersive technology. Discover top talent and connect with future innovators.
-    </p>
-</section>
 
 <div id="showcaseCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top:20px;">
 
@@ -81,7 +74,7 @@
                 <h2 style="font-weight:700;" th:text="${showcase.name}"></h2>
 
                 <a th:href="@{'/showcases/' + ${showcase.showcaseId}}"
-                   class="btn-custom mt-2">
+                   class="btn-orange-primary" style="text-decoration: none">
                     Browse Showcase
                 </a>
             </div>
@@ -97,23 +90,33 @@
     </button>
 </div>
 
+<div class="container mt-5 " style="margin-bottom: 70px;">
+    <h2 class="text-center mb-3" style="font-weight:700;color:#1C1C2E;font-size:2.5rem;">Welcome to Horizons</h2>
+    <p class="text-center" style="max-width: 800px; margin: 0 auto;">
+        Horizons is your gateway to creativity, innovation, and emerging talent.
+        Our platform brings together students, employers, and educators to showcase
+        exceptional projects, discover new opportunities, and build meaningful
+        connections within the tech and creative industries.
+    </p>
+</div>
+
 <div class="container mt-5 text-center">
     <div class="row">
 
         <div class="col-md-4 mb-4">
-            <i class="fas fa-graduation-cap" style="font-size:2.2rem;color:var(--accent);"></i>
+            <i class="fas fa-graduation-cap" style="font-size:2.2rem;color:#1C1C2E;"></i>
             <h4 style="margin-top:10px;">Student Work</h4>
             <p>Explore projects across animation, software, design, and immersive media.</p>
         </div>
 
         <div class="col-md-4 mb-4">
-            <i class="fas fa-briefcase" style="font-size:2.2rem;color:var(--accent);"></i>
+            <i class="fas fa-briefcase" style="font-size:2.2rem;color:#1C1C2E;"></i>
             <h4 style="margin-top:10px;">Industry Ready</h4>
             <p>Employers can discover talent and save projects for later review.</p>
         </div>
 
         <div class="col-md-4 mb-4">
-            <i class="fas fa-users" style="font-size:2.2rem;color:var(--accent);"></i>
+            <i class="fas fa-users" style="font-size:2.2rem;color:#1C1C2E;"></i>
             <h4 style="margin-top:10px;">Community</h4>
             <p>Students, lecturers, and industry professionals together in one space.</p>
         </div>
@@ -121,63 +124,101 @@
     </div>
 </div>
 
-<!-- FEATURED PROJECTS -->
-<div class="container mt-5">
-    <h3 class="section-title">Featured Projects</h3>
+<div class="container mt-5"style="margin-bottom: 70px;">
+    <h3 class="text-left mb-3">Showcasing Student Talent</h3>
+    <p>
+        Each project featured on Horizons reflects the dedication, innovation,
+        and technical ability of our students. From software prototypes and design portfolios
+        to engineering builds and multimedia creations, our showcases highlight the wide range
+        of skills developed across TUS programmes.
+    </p>
+</div>
+
+
+<div class="container mt-4">
+    <h3 class="text-left mb-4">Featured Projects</h3>
 
     <div class="project-grid">
         <div class="project-card"
              th:each="project, stat : ${AllProjectsRecentFirst}"
-             th:if="${stat.index < 3}">
+             th:if="${stat.index < 4}">
 
             <img th:src="@{'/assets/images/projects/thumbnail/' + ${project.projectHeroImage}}">
 
             <h4 th:text="${project.projectName}"></h4>
             <p th:text="${project.projectDescriptionSummary}"></p>
 
-            <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
-                <i class="fa fa-eye"></i> View
-            </a>
+            <div class="btn-wrapper">
+                <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
+                    <i class="fa fa-eye" style="margin-right: 6px;"></i> View
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
-<!-- RECENTLY ADDED -->
-<div class="container mt-5">
-    <h3 class="section-title">Recently Added</h3>
+<div class="container mt-4">
+    <h3 class="text-left mb-4">Recently Added</h3>
 
     <div class="project-grid">
         <div class="project-card"
              th:each="project, stat : ${AllProjectsRecentFirst}"
-             th:if="${stat.index >= 3 and stat.index < 6}">
+             th:if="${stat.index >= 4 and stat.index < 8}">
 
             <img th:src="@{'/assets/images/projects/thumbnail/' + ${project.projectHeroImage}}">
 
             <h4 th:text="${project.projectName}"></h4>
             <p th:text="${project.projectDescriptionSummary}"></p>
 
-            <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
-                <i class="fa fa-eye"></i> View
-            </a>
+            <div class="btn-wrapper">
+                <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
+                    <i class="fa fa-eye" style="margin-right: 6px;"></i> View
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5 pt-5">
+    <h3 class="text-center mb-4">What People Say</h3>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="testimonial-card p-3">
+                <p>"This platform helped me land my first tech internship!"</p>
+                <h5>- Jane Doe, Student</h5>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="testimonial-card p-3">
+                <p>"I found talented students for our startup projects."</p>
+                <h5>- John Smith, Employer</h5>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="testimonial-card p-3">
+                <p>"A great way to showcase creativity and skills."</p>
+                <h5>- Mary Brown, Lecturer</h5>
+            </div>
         </div>
     </div>
 </div>
 
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo"
-             class="logo-img" style="width:150px;height:50px;">
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a th:href="@{/about}">About</a>
-            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -189,6 +230,7 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
+
 </footer>
 
 </body>

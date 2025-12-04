@@ -16,11 +16,11 @@
 
 <!-- HEADER -->
 <header class="header">
-    <a href="#" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
              class="logo-img"
-             style="width:250px;height:100px;" />
+             style="width:200px;height:100px;" />
     </a>
 
     <nav class="nav-items"
@@ -57,47 +57,40 @@
 
     <div class="cards-container">
 
-        <!-- ONE CARD PER PROJECT -->
+
         <div class="card" th:each="note : ${notes}">
 
-            <!-- Image -->
             <img th:src="@{'/assets/images/projects/thumbnail/' + ${note.project.projectHeroImage}}"
                  class="card-img-top"
                  alt="Project Image">
 
-            <!-- Title -->
             <h4 th:text="${note.project.projectName}" style="margin-top:15px;"></h4>
 
-            <!-- Summary -->
             <p th:text="${note.project.projectDescriptionSummary}"></p>
 
-            <!-- Buttons -->
             <div class="card-buttons">
 
-                <!-- View -->
                 <a th:href="@{'/project/view/' + ${note.project.projectId}}"
                    class="btn-view">
-                    <i class="fa-solid fa-eye"></i> View
+                    <i class="fa-solid fa-eye"  style="margin-right: 6px;"></i> View
                 </a>
 
-                <!-- Remove saved -->
                 <form th:action="@{/employer/remove}" method="post" style="flex:1;">
                     <input type="hidden" name="projectId" th:value="${note.project.projectId}">
                     <button type="submit" class="btn-delete">
-                        <i class="fa-solid fa-trash"></i> Unsave
+                        <i class="fa-solid fa-trash"  style="margin-right: 6px;"></i> Unsave
                     </button>
                 </form>
 
             </div>
 
-            <!-- NOTES SECTION -->
+
             <div class="notes-section" style="margin-top:20px;">
 
                 <h5 style="font-weight:700; color:var(--accent); margin-bottom:10px;">
                     Notes
                 </h5>
 
-                <!-- Update Note -->
                 <form th:action="@{/employer/note}" method="post">
                     <textarea class="form-control"
                               name="noteText"
@@ -107,16 +100,15 @@
                     <input type="hidden" name="projectId" th:value="${note.project.projectId}">
 
                     <button type="submit" class="btn-custom" style="margin-top:10px;">
-                        Save Note
+                        Save
                     </button>
                 </form>
 
-                <!-- Delete Note (only if a note exists) -->
                 <form th:if="${note.noteText != null and note.noteText != ''}"
                       th:action="@{/employer/note/delete}" method="post" style="margin-top:10px;">
                     <input type="hidden" name="projectId" th:value="${note.project.projectId}">
                     <button type="submit" class="btn-delete">
-                        <i class="fa-solid fa-xmark"></i> Delete Note
+                        <i class="fa-solid fa-xmark" style="margin-right: 6px;"></i> Delete
                     </button>
                 </form>
 
@@ -128,22 +120,25 @@
 </main>
 
 
-<!-- FOOTER -->
+
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             class="logo-img"
-             style="width:150px;height:50px;">
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -155,6 +150,7 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
+
 </footer>
 
 </body>

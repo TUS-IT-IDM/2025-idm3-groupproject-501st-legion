@@ -1,14 +1,18 @@
 package idm3.project.gallery.controllers;
 
 import idm3.project.gallery.model.Project;
+import idm3.project.gallery.model.Showcase;
 import idm3.project.gallery.model.User;
 import idm3.project.gallery.service.ProjectService;
 import idm3.project.gallery.service.ShowcaseService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/project")

@@ -84,7 +84,6 @@ public class EmployerService {
                 .toList();
     }
 
-    /** ADD REVIEW */
     public void addReview(Long employerId, Integer rating, String comment) {
         Employer e = getOrThrow(employerId);
 
@@ -105,7 +104,7 @@ public class EmployerService {
             throw new Exception("File is empty");
         }
 
-        // YOUR ACTUAL PROJECT STRUCTURE:
+
         String uploadDir = "src/main/resources/static/images/projects/";
         String thumbnailDir = "src/main/resources/static/images/projects/thumbnail/";
 

@@ -13,12 +13,12 @@
 <body>
 
 <header class="header">
-    <a href="/" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
              alt="Company Logo"
              class="logo-img"
-             style="width:250px;height:100px;">
+             style="width:200px;height:100px;">
     </a>
 
     <nav class="nav-items"
@@ -57,36 +57,36 @@
         text-align: center;">
     <h1 style="font-size: 2.6rem; font-weight: 700;">Frequently Asked Questions</h1>
     <p style="max-width: 700px; margin: 15px auto;">
-        Find answers to common questions about the TUS Horizons platform.
+        Find answers to common questions about the Horizons platform.
     </p>
 </section>
 
 <div class="container mt-5 mb-5" style="max-width: 900px;">
+    <div class="dashboard-container">
+        <h2 class="section-title">General Questions</h2>
 
     <div class="details-card">
 
-        <h2 class="section-title" style="text-align:center;">General Questions</h2>
-
         <div class="mt-4">
 
-            <h4 style="color: var(--accent);">What is TUS Horizons?</h4>
+            <h4 style="color: #1C1C2E">What is TUS Horizons?</h4>
             <p>
-                TUS Horizons is a digital gallery platform where students can showcase projects,
+                Horizons is a digital gallery platform where students can showcase projects,
                 employers can browse talent, and staff can review student work.
             </p>
 
-            <h4 style="color: var(--accent); margin-top:20px;">Do I need an account to view projects?</h4>
+            <h4 style="color: #1C1C2E; margin-top:20px;">Do I need an account to view projects?</h4>
             <p>
                 No. Visitors can browse public showcases without logging in.
                 Students and employers must log in to access dashboards and additional features.
             </p>
 
-            <h4 style="color: var(--accent); margin-top:20px;">Who can upload projects?</h4>
+            <h4 style="color: #1C1C2E; margin-top:20px;">Who can upload projects?</h4>
             <p>
                 Only authenticated students with valid TUS accounts can upload and manage their own projects.
             </p>
 
-            <h4 style="color: var(--accent); margin-top:20px;">How do I contact support?</h4>
+            <h4 style="color:#1C1C2E; margin-top:20px;">How do I contact support?</h4>
             <p>
                 You can reach the platform team through the <a th:href="@{/contact}" style="color: var(--accent);">Contact page</a>.
             </p>
@@ -94,25 +94,28 @@
         </div>
 
     </div>
+    </div>
 </div>
+
 
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo"
-             class="logo-img"
-             style="width:150px;height:50px;">
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a th:href="@{/about}">About</a>
-            <a th:href="@{/contact}">Contact</a>
-            <a th:href="@{/faq}">FAQ</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -124,11 +127,8 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
-</footer>
 
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}">Admin Sign-In</a>
-</div>
+</footer>
 
 </body>
 </html>

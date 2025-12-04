@@ -95,11 +95,13 @@ public class EmployerProjectService {
 
     public void deleteNote(Long projectId, Long employerId) {
 
+
         // Find the note row for this employer & project
         List<ProjectNote> notes =
                 noteRepo.findByUserIdAndProject_ProjectId(employerId, projectId);
 
         for (ProjectNote note : notes) {
+
             // Only delete actual notes, not the saved-project row
             if (note.getNoteText() != null && !note.getNoteText().isBlank()) {
                 note.setNoteText(null); // Remove note text

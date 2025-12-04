@@ -15,10 +15,10 @@
 <body>
 
 <header class="header">
-    <a href="#" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
 
     </a>
 
@@ -92,12 +92,12 @@
 
         <a href="/showcases/add"
            th:if="${session.adminUser != null}"
-           class="btn-orange-primary">
+           class="btn-orange-primary " ><i class="fa-solid fa-plus" style="margin-right: 6px;"></i>
             Add Showcase
         </a>
 
 
-        <div class="cards-container">
+        <div class="cards-container" >
             <div class="card" th:each="showcase : ${showcases}">
                 <img th:if="${showcase.thumbnailImage}" th:src="${showcase.thumbnailImage}" alt="Showcase Thumbnail" />
                 <h4 th:text="${showcase.name}"></h4>
@@ -105,23 +105,23 @@
 
                 <div class="status" th:text="'Status: ' + ${showcase.status}"></div>
 
-                <div class="card-buttons">
+                <div class="card-buttons"   style="display:flex; justify-content:flex-start; align-items:center; gap:10px;">
 
                     <a th:href="@{/showcases/{id}(id=${showcase.showcaseId})}"
                        class="btn-view">
-                        <i class="fa-solid fa-eye"></i> View
+                        <i class="fa-solid fa-eye" style="margin-right: 6px;"></i> View
                     </a>
 
                     <a th:href="@{'/showcases/edit/' + ${showcase.showcaseId}}"
                        th:if="${session.adminUser != null}"
                        class="btn-edit">
-                        <i class="fa fa-edit"></i> Edit
+                        <i class="fa fa-edit" style="margin-right: 6px;"></i> Edit
                     </a>
 
                     <a th:href="@{'/showcases/delete/' + ${showcase.showcaseId}}"
                        th:if="${session.adminUser != null}"
                        class="btn-delete">
-                        <i class="fa fa-trash"></i> Delete
+                        <i class="fa fa-trash" style="margin-right: 6px;"></i> Delete
                     </a>
 
                 </div>
@@ -132,20 +132,25 @@
 
 </main>
 
+
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo" class="logo-img" style="width:250px;height:100px;" />
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -157,12 +162,8 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
+
 </footer>
-
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}" href="/adminlogin.html">Admin Sign-In</a>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
