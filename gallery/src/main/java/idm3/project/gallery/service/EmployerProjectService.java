@@ -4,9 +4,12 @@ import idm3.project.gallery.model.Project;
 import idm3.project.gallery.model.ProjectNote;
 import idm3.project.gallery.repository.ProjectNoteRepository;
 import idm3.project.gallery.repository.ProjectRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployerProjectService {
@@ -24,16 +27,16 @@ public class EmployerProjectService {
         return projectRepo.findAll();
     }
 
-    public List<ProjectNote> getSavedProjects(Long employerId) {
-        return noteRepo.findByUserId(employerId)
-                .stream()
-                .filter(ProjectNote::isSaved)
-                .toList();
-    }
-
     public void saveProject(Long projectId, Long employerId) {
-        Project project = projectRepo.findById(projectId)
-                .orElseThrow();
+        Project project = projectRepo.findById(projectId).orElseThrow();
+
+        // Prevent duplicate save rows
+        boolean alreadySaved = noteRepo
+                .findByUserIdAndProject_ProjectId(employerId, projectId)
+                .stream()
+                .anyMatch(ProjectNote::isSaved);
+
+        if (alreadySaved) return;
 
         ProjectNote note = new ProjectNote();
         note.setProject(project);
@@ -52,8 +55,7 @@ public class EmployerProjectService {
     }
 
     public void addNote(Long projectId, Long employerId, String text) {
-        Project project = projectRepo.findById(projectId)
-                .orElseThrow();
+        Project project = projectRepo.findById(projectId).orElseThrow();
 
         ProjectNote note = new ProjectNote();
         note.setProject(project);
@@ -63,6 +65,47 @@ public class EmployerProjectService {
 
         noteRepo.save(note);
     }
+
+    public List<ProjectNote> getUniqueSavedProjects(Long employerId) {
+
+        List<ProjectNote> all = noteRepo.findByUserId(employerId).stream()
+                .filter(ProjectNote::isSaved)
+                .toList();
+
+        Map<Long, ProjectNote> grouped = all.stream()
+                .collect(Collectors.toMap(
+                        n -> n.getProject().getProjectId(),
+                        n -> n,
+                        (existing, replacement) -> {
+                            boolean existingHasNote = existing.getNoteText() != null && !existing.getNoteText().isBlank();
+                            boolean replacementHasNote = replacement.getNoteText() != null && !replacement.getNoteText().isBlank();
+
+                            if (!existingHasNote && replacementHasNote) {
+                                return replacement;
+                            }
+                            return existing;
+                        }
+                ));
+
+        return grouped.values().stream().toList();
+    }
+
+    public void deleteNote(Long projectId, Long employerId) {
+
+
+        List<ProjectNote> notes =
+                noteRepo.findByUserIdAndProject_ProjectId(employerId, projectId);
+
+        for (ProjectNote note : notes) {
+
+            if (note.getNoteText() != null && !note.getNoteText().isBlank()) {
+                note.setNoteText(null); // Remove note text
+            }
+        }
+
+        noteRepo.saveAll(notes);
+    }
+
 
     public List<ProjectNote> getAllNotesForEmployer(Long employerId) {
         return noteRepo.findByUserId(employerId);

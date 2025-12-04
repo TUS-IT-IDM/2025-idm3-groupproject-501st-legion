@@ -46,6 +46,13 @@ public class ProjectService {
     }
 
     public void delete(Long id) {
+        Project project = findOne(id);
+
+        if (project.getShowcase() != null) {
+            project.setShowcase(null);
+            projectRepo.save(project);
+        }
+
         projectRepo.deleteById(id);
     }
 
@@ -95,6 +102,9 @@ public class ProjectService {
             project.setProjectHeroImage(thumbName);
         }
 
+        projectRepo.save(project);
+    }
+    public void addProject(Project project, MultipartFile file) {
         projectRepo.save(project);
     }
 

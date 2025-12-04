@@ -15,12 +15,12 @@
 <body>
 
 <header class="header">
-    <a href="#" class="logo">
+    <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
              alt="Company Logo"
              class="logo-img"
-             style="width:250px;height:100px;" />
+             style="width:200px;height:100px;" />
     </a>
 
     <nav class="nav-items"
@@ -29,35 +29,34 @@
                   admin=${session.adminUser}">
 
         <a th:href="@{/MainGallery}">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
 
-        <!-- Logged-out -->
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
         <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
 
-        <!-- Student -->
         <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
 
-        <!-- Employer -->
-        <a th:if="${employer != null}" th:href="@{/employer}">Employer Dashboard</a>
-        <a th:if="${employer != null}" th:href="@{/employer/notes}">View All Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
 
-        <!-- Admin -->
         <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
 
-        <!-- Logout -->
-        <a th:if="${admin != null or employer != null or student != null}"
-           th:href="@{/logout}">
-            Logout
-        </a>
-
+        <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
+
+
+
+
 </header>
 
 
 <main>
-    <h2 class="section-title">Showcase Details</h2>
+    <div class="dashboard-container">
+        <h2 class="section-title">Showcase Details</h2>
 
     <div class="details-card">
 
@@ -85,6 +84,7 @@
 
         <div class="projects-container">
             <div class="project-card" th:each="project : ${projects}">
+
                 <img th:if="${project.projectHeroImage != null}"
                      th:src="@{'/uploads/thumbs/' + ${project.projectHeroImage}}"
                      alt="Project Thumbnail">
@@ -96,35 +96,54 @@
                     <span th:text="${project.category}"></span>
                     <span th:text="${#dates.format(project.creationDate, 'dd/MM/yyyy')}"></span>
                 </div>
+
+                <div class="mt-2 d-flex gap-2">
+                    <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
+                        <i class="fa fa-eye" style="margin-right: 6px;"></i> View
+                    </a>
+
+                    <a th:if="${session.adminUser != null}"
+                       th:href="@{'/showcases/' + ${showcase.showcaseId} + '/project/delete/' + ${project.projectId}}"
+                       class="btn-delete">
+                        <i class="fa fa-trash" style="margin-right: 6px;"></i> Delete
+                    </a>
+                </div>
+
             </div>
         </div>
 
+
         <div class="details-actions">
-            <a href="/showcases" class="btn-orange-secondary back-btn">
-                <i class="fa fa-arrow-left"></i> Back to Dashboard
+            <a href="/showcases" class="btn-orange-primary">
+                <i class="fa fa-arrow-left" style="margin-right: 6px;"></i> Back
             </a>
         </div>
 
+    </div>
     </div>
 
 </main>
 
 
+
 <footer class="footer">
     <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo"
-             class="logo-img" style="width:150px;height:50px;" />
-        <div class="copy">© 2025 TUS Horizons</div>
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
     </div>
 
     <div class="footer-center">
         <div class="links">
             <span>More Info</span>
-            <a th:href="@{/}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
         </div>
     </div>
 
@@ -136,11 +155,8 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
-</footer>
 
-<div class="footer-admin">
-    <a th:href="@{/adminlogin}">Admin Sign-In</a>
-</div>
+</footer>
 
 </body>
 </html>

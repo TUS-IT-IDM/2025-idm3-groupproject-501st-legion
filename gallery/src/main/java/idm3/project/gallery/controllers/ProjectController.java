@@ -1,14 +1,18 @@
 package idm3.project.gallery.controllers;
 
 import idm3.project.gallery.model.Project;
+import idm3.project.gallery.model.Showcase;
 import idm3.project.gallery.model.User;
 import idm3.project.gallery.service.ProjectService;
 import idm3.project.gallery.service.ShowcaseService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/project")
@@ -84,7 +88,7 @@ public class ProjectController {
                 return "redirect:/login";
             }
             projectService.updateProject(project, file, showcaseId, user);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {}
         return "redirect:/project";
     }
 
@@ -105,25 +109,10 @@ public class ProjectController {
     @GetMapping("/view/{id}")
     public String viewProject(@PathVariable Long id, HttpSession session, Model model) {
 
-        User student = (User) session.getAttribute("studentUser");
-        User employer = (User) session.getAttribute("employerUser");
-
-        if (student == null && employer == null) {
-            return "redirect:/login";
-        }
-
         Project project = projectService.findOne(id);
-
-        if (student != null) {
-            if (project.getUser() == null || project.getUser().getUserId() != student.getUserId()) {
-                return "redirect:/project";
-            }
-        }
-
         model.addAttribute("project", project);
         return "viewProject";
     }
-
 
     @GetMapping("/search")
     public String search(@RequestParam String keyword, HttpSession session, Model model) {

@@ -3,6 +3,8 @@ package idm3.project.gallery.controllers;
 import idm3.project.gallery.model.Showcase;
 import idm3.project.gallery.service.ShowcaseService;
 import idm3.project.gallery.service.ProjectService;
+
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -95,6 +97,30 @@ public class ShowcaseController {
         showcaseService.deleteById(id);
         ra.addFlashAttribute("success", "Showcase deleted successfully!");
         return "redirect:/showcases";
+    }
+
+    @GetMapping("/{showcaseId}/project/delete/{projectId}")
+    public String deleteProjectFromShowcase(
+            @PathVariable long showcaseId,
+            @PathVariable long projectId,
+            HttpSession session,
+            RedirectAttributes ra) {
+
+        Object admin = session.getAttribute("adminUser");
+
+        if (admin == null) {
+            ra.addFlashAttribute("error", "Unauthorized.");
+            return "redirect:/showcases/" + showcaseId;
+        }
+
+        try {
+            projectService.delete(projectId);
+            ra.addFlashAttribute("success", "Project deleted successfully!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Failed to delete project.");
+        }
+
+        return "redirect:/showcases/" + showcaseId;
     }
 
     @GetMapping("/{id}")

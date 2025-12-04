@@ -2,23 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Showcase Form</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/assets/css/lcstyle.css" />
-
-    <style>
-        .error-text { color: #d9534f; font-size: 0.85rem; margin-top: 3px; }
-        .input-error { border-color: #d9534f !important; }
-    </style>
+    <title>Employer Profile</title>
+    <link rel="stylesheet" href="/assets/css/lcstyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
 
 <header class="header">
     <a th:href="@{/MainGallery} " class="logo">
-        <img src="/assets/images/logo/LogoComputer.png" class="logo-img" style="width:200px;height:100px;">
+        <img th:src="@{/assets/images/logo/LogoComputer.png}" src="/assets/images/logo/LogoComputer.png"
+             class="logo-img" style="width:200px;height:100px;" />
     </a>
 
     <nav class="nav-items"
@@ -45,51 +39,28 @@
 
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
-
-
 </header>
 
-<main>
-    <div class="dashboard-container">
-        <h2 class="section-title"th:text="${showcase.showcaseId == 0 ? 'Add Showcase' : 'Edit Showcase'}"></h2>
+<div class="dashboard-container">
+    <h2 class="section-title">Employer Profile</h2>
+
+    <div class="details-card">
+        <h4>Profile Information</h4>
+
+        <p><strong>First Name:</strong> <span th:text="${employer.firstName}"></span></p>
+        <p><strong>Surname:</strong> <span th:text="${employer.surname}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${employer.emailAddress}"></span></p>
+        <p><strong>Organisation:</strong> <span th:text="${employer.organization}"></span></p>
 
 
-    <div class="login-container">
-
-        <form th:action="@{${formAction}}" th:object="${showcase}" method="post" class="login-form" enctype="multipart/form-data">
-
-            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                <ul>
-                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-                </ul>
-            </div>
-
-            <label>Name</label>
-            <input type="text" th:field="*{name}" class="form-control" />
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-text"></span>
-
-            <label>Description</label>
-            <textarea th:field="*{description}" class="form-control"></textarea>
-            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-text"></span>
-
-            <label>Status</label>
-            <select th:field="*{status}" class="form-control">
-                <option value="">-- Select Status --</option>
-                <option value="LIVE">LIVE</option>
-                <option value="PENDING">PENDING</option>
-            </select>
-            <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="error-text"></span>
-
-
-            <label>Upload Image</label>
-            <input type="file" name="imageFile" class="form-control" th:required="${showcase.showcaseId == 0}" />
-
-            <button type="submit" class="btn btn-custom w-100 mt-3"
-                    th:text="${showcase.showcaseId == 0 ? 'Create Showcase' : 'Update Showcase'}"></button>
-        </form>
+        <div class="details-actions">
+            <a th:href="@{/employer/profile/edit}" class="btn-orange-primary">Edit Profile</a>
 
     </div>
-</main>
+    </div>
+</div>
+
+
 
 <footer class="footer">
     <div class="footer-left">

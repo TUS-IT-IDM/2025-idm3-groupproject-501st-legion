@@ -2,17 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Add Project</title>
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="/assets/css/lcstyle.css">
+    <title>Edit Employer Profile</title>
+    <link rel="stylesheet" href="/assets/css/lcstyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -21,10 +13,8 @@
     <a th:href="@{/MainGallery} " class="logo">
         <img th:src="@{/assets/images/logo/LogoComputer.png}"
              src="/assets/images/logo/LogoComputer.png"
-             alt="Company Logo"
              class="logo-img" style="width:200px;height:100px;" />
     </a>
-
 
     <nav class="nav-items"
          th:with="employer=${session.employerUser},
@@ -50,70 +40,27 @@
 
         <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
     </nav>
-
-
 </header>
 
-<main>
-    <div class="dashboard-container">
-        <h2 class="section-title" style="margin-bottom: 5px;">Add Project</h2>
+<div class="dashboard-container">
+    <h2 class="section-title">Edit Profile</h2>
 
-        <!--Validation doesnt work , tried to fix it but no success.
-        It was working but when implementing all work together is stop working. -->
+    <form th:action="@{/employer/profile/update}" th:object="${employer}" method="post" class="project-form">
+        <label>First Name</label>
+        <input type="text" th:field="*{firstName}" class="form-control"/>
 
+        <label>Surname</label>
+        <input type="text" th:field="*{surname}" class="form-control"/>
 
-        <div class="login-container">
-            <form th:action="@{/project/add}"
-                  th:object="${project}"
-                  method="post"
-                  enctype="multipart/form-data"
-                  class="login-form">
+        <label>Email Address</label>
+        <input type="email" th:field="*{emailAddress}" class="form-control"/>
 
-                <label>Project Name</label>
-                <input type="text"
-                       th:field="*{projectName}"
-                       class="form-control" required />
+        <label>Organisation</label>
+        <input type="text" th:field="*{organization}" class="form-control"/>
 
-                <label>Description</label>
-                <textarea th:field="*{projectDescription}"
-                          class="form-control"
-                          rows="4"
-                          required></textarea>
-
-                <label>Short Summary</label>
-                <input type="text"
-                       th:field="*{projectDescriptionSummary}"
-                       class="form-control"
-                       required />
-
-                <label>Category</label>
-                <input type="text"
-                       th:field="*{category}"
-                       class="form-control"
-                       required />
-
-                <label>Showcase</label>
-                <select name="showcaseId" class="form-control">
-                    <option th:each="s : ${showcases}"
-                            th:value="${s.showcaseId}"
-                            th:text="${s.name}">
-                    </option>
-                </select>
-
-                <label>Project Image</label>
-                <input type="file"
-                       name="projectHeroImageFile"
-                       class="form-control"
-                       required />
-
-                <button type="submit" class="btn btn-custom w-100 mt-3">
-                    Add Project
-                </button>
-
-            </form>
-        </div>
-    </div>
-</main>
+        <button type="submit" class="btn-orange-primary">Save</button>
+    </form>
+</div>
 
 
 <footer class="footer">

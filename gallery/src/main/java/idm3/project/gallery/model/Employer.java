@@ -44,9 +44,6 @@ public class Employer {
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-
-    // --------- GETTERS / SETTERS ----------
-
     public Long getEmployerId() {
         return employerId;
     }
