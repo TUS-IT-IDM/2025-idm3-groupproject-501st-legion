@@ -30,12 +30,27 @@ public class EmployerController {
             return new ModelAndView("redirect:/login");
         }
 
-        Long employerId = ((idm3.project.gallery.model.User) userObj).getUserId();
-
         List<Project> allProjects = employerService.findAllProjects();
 
         ModelAndView mv = new ModelAndView("employer");
         mv.addObject("projects", allProjects);
+
+        return mv;
+    }
+
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("keyword") String keyword, HttpSession session) {
+
+        Object userObj = session.getAttribute("employerUser");
+        if (userObj == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        List<Project> results = employerService.searchProjects(keyword);
+
+        ModelAndView mv = new ModelAndView("employer");
+        mv.addObject("projects", results);
+        mv.addObject("searchKeyword", keyword);
 
         return mv;
     }
@@ -87,5 +102,4 @@ public class EmployerController {
 
         return "redirect:/employer/notes";
     }
-
 }

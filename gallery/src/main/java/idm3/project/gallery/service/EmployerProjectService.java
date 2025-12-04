@@ -113,4 +113,23 @@ public class EmployerProjectService {
     public List<ProjectNote> getAllNotesForEmployer(Long employerId) {
         return noteRepo.findByUserId(employerId);
     }
+
+    public List<Project> searchProjects(String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return projectRepo.findAll();
+        }
+
+        String lower = keyword.toLowerCase();
+
+        return projectRepo.findAll().stream()
+                .filter(p ->
+                        (p.getProjectName() != null && p.getProjectName().toLowerCase().contains(lower)) ||
+                                (p.getProjectDescriptionSummary() != null &&
+                                        p.getProjectDescriptionSummary().toLowerCase().contains(lower)) ||
+                                (p.getCategory() != null && p.getCategory().toLowerCase().contains(lower))
+                )
+                .toList();
+    }
+
 }
