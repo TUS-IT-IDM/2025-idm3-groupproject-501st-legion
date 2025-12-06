@@ -1,0 +1,38 @@
+# Docker ignore file
+# Excludes files from Docker build context
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea
+*.iml
+.vscode
+*.swp
+*.swo
+
+# Documentation
+README.md
+*.md
+
+# Environment files
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# Maven (keep only necessary files)
+target/
+!target/*.jar
+
+# Docker
+docker-compose*.yml
+Dockerfile.*
+
+# OS
+.DS_Store
+Thumbs.db

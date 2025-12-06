@@ -86,7 +86,7 @@
             <div class="project-card" th:each="project : ${projects}">
 
                 <img th:if="${project.projectHeroImage != null}"
-                     th:src="@{'/uploads/thumbs/' + ${project.projectHeroImage}}"
+                     th:src="@{'/assets/images/projects/thumbnail/' + ${project.projectHeroImage}}"
                      alt="Project Thumbnail">
 
                 <h4 th:text="${project.projectName}"></h4>
