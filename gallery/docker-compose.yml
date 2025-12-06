@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    container_name: gallery_app
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/idm3project2024
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+    networks:
+      - backend
+
+
+  db:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    container_name: gallery_db
+    environment:
+      MYSQL_DATABASE: idm3project2024
+      MYSQL_ROOT_PASSWORD: ""
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+
+
+  proxy:
+    build:
+      context: .
+      dockerfile: docker/proxy/Dockerfile
+    container_name: gallery_proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:

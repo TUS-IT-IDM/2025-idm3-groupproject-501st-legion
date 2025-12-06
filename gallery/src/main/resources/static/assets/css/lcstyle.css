@@ -241,7 +241,6 @@ footer {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-
 .search-input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(247,143,30,0.12);
@@ -366,7 +365,6 @@ footer {
     color: white;
 }
 
-
 .filter-btn {
     display: inline-block;
     padding: 6px 10px;
@@ -432,8 +430,6 @@ h2.section-title {
     font-weight: 700;
     margin-bottom: 15px;
 }
-
-
 
 .login-page {
     padding-bottom: 40px;
@@ -612,7 +608,6 @@ h2.section-title {
     border-radius: 10px;
 }
 
-
 .sort-wrapper {
     display: flex;
     justify-content: center;
@@ -660,8 +655,6 @@ h2.section-title {
     font-size: 0.9rem;
 }
 
-
-
 .details-header {
     display: flex;
     gap: 30px;
@@ -695,19 +688,28 @@ h2.section-title {
     width: fit-content;
 }
 
-
 .projects-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
 }
 
-
 .details-actions {
     margin-top: 25px;
     display: flex;
     justify-content: flex-start;
 }
+
+.project-full-img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+
 
 
 
