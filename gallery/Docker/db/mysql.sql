@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2025 at 06:54 PM
+-- Generation Time: Dec 08, 2025 at 12:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `idm3project2024`
 --
+CREATE DATABASE IF NOT EXISTS `idm3project2024` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `idm3project2024`;
 
 -- --------------------------------------------------------
 
@@ -27,8 +29,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `employer`
 --
 
-CREATE TABLE `employer` (
-  `EmployerID` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `employer` (
+  `EmployerID` bigint(20) NOT NULL AUTO_INCREMENT,
   `additionalDoc` varchar(255) DEFAULT NULL,
   `Category` varchar(255) DEFAULT NULL,
   `CreationDate` date DEFAULT NULL,
@@ -37,7 +39,8 @@ CREATE TABLE `employer` (
   `EmployerHeroImage` varchar(255) DEFAULT NULL,
   `EmployerName` varchar(255) NOT NULL,
   `notes` varchar(2000) DEFAULT NULL,
-  `saved` bit(1) DEFAULT NULL
+  `saved` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`EmployerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -46,8 +49,8 @@ CREATE TABLE `employer` (
 -- Table structure for table `project`
 --
 
-CREATE TABLE `project` (
-  `ProjectID` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `project` (
+  `ProjectID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ProjectName` varchar(255) DEFAULT NULL,
   `ProjectDescription` varchar(500) NOT NULL,
   `UserID` bigint(20) DEFAULT NULL,
@@ -57,8 +60,12 @@ CREATE TABLE `project` (
   `CreationDate` date NOT NULL DEFAULT current_timestamp(),
   `additionalDoc` varchar(255) DEFAULT NULL,
   `showcase_id` bigint(20) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ProjectID`),
+  KEY `UserID` (`UserID`),
+  KEY `FK4ow2o8mfch91jnyu44scyuj8h` (`showcase_id`),
+  KEY `FKo06v2e9kuapcugnyhttqa1vpt` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project`
@@ -70,25 +77,24 @@ INSERT INTO `project` (`ProjectID`, `ProjectName`, `ProjectDescription`, `UserID
 (3, '3D cartoons', '3D character modeling is a graphic design technique that creates a three-dimensional digital representation of a surface or an object. Artists use specific software, start with a simple shape, and slowly enrich it with more details', 1, 'IT', 'a collection of 3D Disney characters', 'p3disney.jpg', '2023-09-23', 'x.doc', NULL, NULL),
 (7, 'lizs best project', 'great project', 4, 'ART', 'more details', 'small_cute_cat.png', '2024-11-03', 'no', NULL, NULL),
 (24, 'Man-in-the-Moon', 'What is organic chemistry? Organic chemistry is the field of chemistry over the study of organic substances and compounds – that is, those that contain carbon in their molecular structure, combined with other elements such as hydrogen, nitrogen, oxygen, and sulfur.', 1, 'organic chemistry', 'The Effect of Gamma Rays on Man-in-the-Moon Marigolds', 'p6artshowcase.jpg', '2023-09-23', 'p.doc', NULL, NULL),
-(26, 'Autonomous Line-Following Robot', 'A programmable robot built using sensors and microcontrollers.', 1, 'Engineering', 'Sensor-based robotics project.', '/uploads/eng_robot.jpg', '2025-11-18', NULL, NULL, NULL),
-(27, '3D Printed Prosthetic Hand', 'A low-cost prosthetic prototype designed using CAD tools.', 1, 'Engineering', 'Affordable prosthetic design.', '/uploads/eng_prosthetic.jpg', '2025-11-18', NULL, NULL, NULL),
-(28, 'Bridge Stress Test Simulation', 'A structural engineering simulation analyzing load capacity.', 1, 'Engineering', 'Load stress simulation.', '/uploads/eng_bridge.jpg', '2025-11-18', NULL, NULL, NULL),
-(29, 'Startup Market Analysis Report', 'A full market analysis for a hypothetical SaaS startup.', 1, 'Business', 'Market research project.', '/uploads/biz_market.jpg', '2025-11-18', NULL, NULL, NULL),
-(30, 'Brand Identity Redesign', 'A corporate rebranding strategy with logo and pitch deck.', 1, 'Business', 'Branding strategy.', '/uploads/biz_brand.jpg', '2025-11-18', NULL, NULL, NULL),
-(31, 'Financial Forecasting Dashboard', 'An Excel-based forecasting model for business planning.', 1, 'Business', 'Financial modelling.', '/uploads/biz_finance.jpg', '2025-11-18', NULL, NULL, NULL),
-(32, 'Character Concept Art Collection', 'A set of digital character concept designs.', 1, 'Art & Design', 'Concept art showcase.', '/uploads/art_character.jpg', '2025-11-18', NULL, NULL, NULL),
-(33, '3D Environment Scene', 'A stylised 3D environment created in Blender.', 1, 'Art & Design', '3D environment.', '/uploads/art_env.jpg', '2025-11-18', NULL, NULL, NULL),
-(34, 'Animated Short Clip', 'A 15-second animation demonstrating motion principles.', 1, 'Art & Design', 'Motion animation.', '/uploads/art_anim.jpg', '2025-11-18', NULL, NULL, NULL),
-(35, 'Mobile Fitness Tracking App', 'An Android fitness-tracking app with step counter.', 1, 'Computing', 'Mobile app development.', '/uploads/comp_fitness.jpg', '2025-11-18', NULL, NULL, NULL),
-(36, 'Cybersecurity Password Auditor', 'A Java tool to evaluate password strength and security.', 1, 'Computing', 'Security auditing tool.', '/uploads/comp_security.jpg', '2025-11-18', NULL, NULL, NULL),
-(37, 'AI Image Classifier', 'A machine learning model that classifies images.', 1, 'Computing', 'AI classification model.', '/uploads/comp_ai.jpg', '2025-11-18', NULL, NULL, NULL),
-(38, 'Water Quality Testing Report', 'A study on local water quality and contaminant levels.', 1, 'Science', 'Environmental testing.', '/uploads/sci_water.jpg', '2025-11-18', NULL, NULL, NULL),
-(39, 'Plant Growth Experiment', 'A controlled experiment analysing plant growth factors.', 1, 'Science', 'Biology study.', '/uploads/sci_plants.jpg', '2025-11-18', NULL, NULL, NULL),
-(40, 'Chemical Reaction Rate Analysis', 'A lab experiment measuring reaction kinetics.', 1, 'Science', 'Chemistry experiment.', '/uploads/sci_chem.jpg', '2025-11-18', NULL, NULL, NULL),
+(26, 'Autonomous Line-Following Robot', 'A programmable robot built using sensors and microcontrollers.', 1, 'Engineering', 'Sensor-based robotics project.', 'eng_robot.jpg', '2025-11-18', NULL, NULL, NULL),
+(27, '3D Printed Prosthetic Hand', 'A low-cost prosthetic prototype designed using CAD tools.', 1, 'Engineering', 'Affordable prosthetic design.', 'prosthetic.jpg', '2025-11-18', NULL, NULL, NULL),
+(28, 'Bridge Stress Test Simulation', 'A structural engineering simulation analyzing load capacity.', 1, 'Engineering', 'Load stress simulation.', 'bridge.jpg', '2025-11-18', NULL, NULL, NULL),
+(29, 'Startup Market Analysis Report', 'A full market analysis for a hypothetical SaaS startup.', 1, 'Business', 'Market research project.', 'market.jpg', '2025-11-18', NULL, NULL, NULL),
+(30, 'Brand Identity Redesign', 'A corporate rebranding strategy with logo and pitch deck.', 1, 'Business', 'Branding strategy.', 'brand.jpg', '2025-11-18', NULL, NULL, NULL),
+(31, 'Financial Forecasting Dashboard', 'An Excel-based forecasting model for business planning.', 1, 'Business', 'Financial modelling.', 'finance.jpg', '2025-11-18', NULL, NULL, NULL),
+(32, 'Character Concept Art Collection', 'A set of digital character concept designs.', 1, 'Art & Design', 'Concept art showcase.', 'conceptart.jpg', '2025-11-18', NULL, NULL, NULL),
+(33, '3D Environment Scene', 'A stylised 3D environment created in Blender.', 1, 'Art & Design', '3D environment.', 'blender.jpg', '2025-11-18', NULL, NULL, NULL),
+(34, 'Animated Short Clip', 'A 15-second animation demonstrating motion principles.', 1, 'Art & Design', 'Motion animation.', 'animation.jpg', '2025-11-18', NULL, NULL, NULL),
+(35, 'Mobile Fitness Tracking App', 'An Android fitness-tracking app with step counter.', 1, 'Computing', 'Mobile app development.', 'fitness.jpg', '2025-11-18', NULL, NULL, NULL),
+(36, 'Cybersecurity Password Auditor', 'A Java tool to evaluate password strength and security.', 1, 'Computing', 'Security auditing tool.', 'security.jpg', '2025-11-18', NULL, NULL, NULL),
+(37, 'AI Image Classifier', 'A machine learning model that classifies images.', 1, 'Computing', 'AI classification model.', 'ai.jpg', '2025-11-18', NULL, NULL, NULL),
+(38, 'Water Quality Testing Report', 'A study on local water quality and contaminant levels.', 1, 'Science', 'Environmental testing.', 'water.jpg', '2025-11-18', NULL, NULL, NULL),
+(39, 'Plant Growth Experiment', 'A controlled experiment analysing plant growth factors.', 1, 'Science', 'Biology study.', 'plants.jpg', '2025-11-18', NULL, NULL, NULL),
+(40, 'Chemical Reaction Rate Analysis', 'A lab experiment measuring reaction kinetics.', 1, 'Science', 'Chemistry experiment.', 'chemistry.jpg', '2025-11-18', NULL, NULL, NULL),
 (41, 'Test Project', 'dhgsjsahj', NULL, 'Digital Media', 'djsdk', 'thumb_dc12ebcc-f00a-4538-856a-e6b0786d5ce3.PNG', '2025-11-30', NULL, NULL, 46),
-(42, 'Luke Hurley', 'my name ius luke', NULL, 'Digital Media', 'haw haw luke', 'thumb_e991cdec-d8cb-4160-bbcd-16733557c0de.PNG', '2025-12-01', NULL, 4, 46),
-(43, 'Test Project', 'hjshdassda', NULL, 'jksakjsd', 'j,xsd', 'thumb_7b28d092-cbbc-4520-aa01-c06ded3371c6.png', '2025-12-04', NULL, 4, 46),
-(44, 'Smiling Friends', 'dskjfjk', NULL, 'kjsekjes', 'saksk', 'thumb_a535ccba-9d22-4f86-b5ca-74cdad353b51.png', '2025-12-04', NULL, 4, 46);
+(42, 'Another Test', 'jksfd', NULL, 'Digital Media', 'haw haw luke', 'thumb_e991cdec-d8cb-4160-bbcd-16733557c0de.PNG', '2025-12-01', NULL, 32, 46),
+(43, 'Test Project', 'hjshdassda', NULL, 'jksakjsd', 'j,xsd', 'thumb_7b28d092-cbbc-4520-aa01-c06ded3371c6.png', '2025-12-04', NULL, 4, 46);
 
 -- --------------------------------------------------------
 
@@ -96,14 +102,16 @@ INSERT INTO `project` (`ProjectID`, `ProjectName`, `ProjectDescription`, `UserID
 -- Table structure for table `project_note`
 --
 
-CREATE TABLE `project_note` (
-  `NoteID` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `project_note` (
+  `NoteID` bigint(20) NOT NULL AUTO_INCREMENT,
   `CreatedAt` datetime(6) DEFAULT NULL,
   `NoteText` varchar(2000) DEFAULT NULL,
   `Saved` bit(1) DEFAULT NULL,
   `UserID` bigint(20) NOT NULL,
-  `ProjectID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ProjectID` bigint(20) NOT NULL,
+  PRIMARY KEY (`NoteID`),
+  KEY `FKt6qexvv3mqyot7gpse2hxrbkv` (`ProjectID`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project_note`
@@ -132,7 +140,8 @@ INSERT INTO `project_note` (`NoteID`, `CreatedAt`, `NoteText`, `Saved`, `UserID`
 (20, '2025-12-02 09:51:25.000000', NULL, b'1', 68, 40),
 (21, '2025-12-02 11:49:41.000000', NULL, b'1', 68, 41),
 (22, '2025-12-04 22:00:03.000000', NULL, b'1', 68, 7),
-(23, '2025-12-04 22:00:11.000000', NULL, b'1', 68, 7);
+(23, '2025-12-04 22:00:11.000000', NULL, b'1', 68, 7),
+(24, '2025-12-05 20:02:14.000000', 'fhkghgkhg', b'1', 68, 7);
 
 -- --------------------------------------------------------
 
@@ -140,14 +149,15 @@ INSERT INTO `project_note` (`NoteID`, `CreatedAt`, `NoteText`, `Saved`, `UserID`
 -- Table structure for table `showcase`
 --
 
-CREATE TABLE `showcase` (
-  `ShowcaseId` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `showcase` (
+  `ShowcaseId` bigint(20) NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) DEFAULT NULL,
   `Description` varchar(500) NOT NULL,
   `Image` varchar(255) DEFAULT NULL,
   `Status` varchar(50) NOT NULL,
-  `ThumbnailImage` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ThumbnailImage` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ShowcaseId`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `showcase`
@@ -158,8 +168,8 @@ INSERT INTO `showcase` (`ShowcaseId`, `Name`, `Description`, `Image`, `Status`, 
 (2, 'TEST', 'dfghj', NULL, 'LIVE', NULL),
 (3, 'Sea times', 'a collection of immersive digital pieces to celebrate the beauty of the sea ', NULL, 'LIVE', NULL),
 (4, 'Politics showcase', 'a collection of 3rd year work.', '/uploads/8e098fa0-258e-4888-a6bb-a530de77382e_CrashCost.png', 'LIVE', NULL),
-(32, 'Doomsday', 'Avengers Doomsday', '/uploads/2f9a7246-deb1-4275-aaf7-323c2cca2e18_doomsday.jpg', 'LIVE', '/uploads/thumbs/2f9a7246-deb1-4275-aaf7-323c2cca2e18_doomsday.jpg'),
-(33, 'Create Showcase Example', 'This is an example showcase', '/uploads/244fed11-a057-41a9-955a-6091def97634_doomsday.jpg', 'LIVE', '/uploads/thumbs/244fed11-a057-41a9-955a-6091def97634_doomsday.jpg'),
+(32, 'Doomsday', 'Avengers Doomsday', '/uploads/28c333d7-29b5-4f72-87f5-8a8c1eeea0c7_doomsday1.jpeg', 'LIVE', '/uploads/thumbs/28c333d7-29b5-4f72-87f5-8a8c1eeea0c7_doomsday1.jpeg'),
+(33, 'Create Showcase Example', 'This is an example showcase', '/uploads/9fbe0d15-5c9c-404e-b45d-c4d0b76335d2_arkham-knight-4k.jpg', 'LIVE', '/uploads/thumbs/9fbe0d15-5c9c-404e-b45d-c4d0b76335d2_arkham-knight-4k.jpg'),
 (34, 'Showcase', 'dskjfdsdff', '/uploads/c4ea282e-b3ce-4ce6-9117-d5265363a8e0_air.png', 'LIVE', '/uploads/thumbs/c4ea282e-b3ce-4ce6-9117-d5265363a8e0_air.png');
 
 -- --------------------------------------------------------
@@ -168,11 +178,14 @@ INSERT INTO `showcase` (`ShowcaseId`, `Name`, `Description`, `Image`, `Status`, 
 -- Table structure for table `showcaseproject`
 --
 
-CREATE TABLE `showcaseproject` (
-  `ShowcaseProjectID` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `showcaseproject` (
+  `ShowcaseProjectID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ProjectId` bigint(20) DEFAULT NULL,
-  `ShowcaseID` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ShowcaseID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ShowcaseProjectID`),
+  KEY `ShowcaseID` (`ShowcaseID`),
+  KEY `ProjectID` (`ProjectId`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `showcaseproject`
@@ -202,16 +215,17 @@ INSERT INTO `showcaseproject` (`ShowcaseProjectID`, `ProjectId`, `ShowcaseID`) V
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `userid` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `userid` bigint(20) NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(50) NOT NULL,
   `surname` varchar(225) DEFAULT NULL,
   `EmailAddress` varchar(100) NOT NULL,
   `UserType` varchar(50) NOT NULL,
   `UserName` varchar(50) NOT NULL,
   `password` varchar(225) DEFAULT NULL,
-  `organization` varchar(225) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `organization` varchar(225) DEFAULT NULL,
+  PRIMARY KEY (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
@@ -263,7 +277,7 @@ INSERT INTO `user` (`userid`, `FirstName`, `surname`, `EmailAddress`, `UserType`
 (65, 'Gendo', 'Ikari', 'gendo.ikari@nerv.jp', 'Employer', 'nervDirector', 'user123', 'NERV'),
 (66, 'Ritsuko', 'Akagi', 'ritsuko.akagi@nerv.jp', 'Employer', 'nervScientist', 'user123', 'NERV'),
 (67, 'Lando', 'Calrissian', 'lando@cloudcity.org', 'Employer', 'landoBoss', 'user123', 'Cloud City'),
-(68, 'Din', 'Djarin', 'mando@guild.org', 'Employer', 'mandoHunter', 'user123', 'Bounty Hunter Guil'),
+(68, 'Lando', 'Calrissian', 'mando@guild.org', 'Employer', 'mandoHunter', 'user123', 'Cloud City'),
 (69, 'Erwin', 'Smith', 'erwin@surveycorp.com', 'Employer', 'erwinCommander', 'user123', 'Survey Corps HQ'),
 (70, 'Levi', 'Ackerman', 'levi@surveycorp.com', 'Employer', 'leviCaptain', 'user123', 'Survey Corps HQ'),
 (71, 'Judy', 'Alvarez', 'judy@lizzie.net', 'Employer', 'judyTech', 'user123', 'Lizzie’s Tech'),
@@ -280,92 +294,6 @@ INSERT INTO `user` (`userid`, `FirstName`, `surname`, `EmailAddress`, `UserType`
 (82, 'Liara', 'Tsoni', 'liara@shadowbroker.net', 'Employer', 'liaraShadow', 'user123', 'Shadow Broker Network'),
 (83, 'Cassandra', 'Pentaghast', 'cassandra@chantry.org', 'Employer', 'seekersLead', 'user123', 'Seekers of Truth'),
 (84, 'Varric', 'Tethras', 'varric@merchantsguild.org', 'Employer', 'varricGuild', 'user123', 'Merchants Guild');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `employer`
---
-ALTER TABLE `employer`
-  ADD PRIMARY KEY (`EmployerID`);
-
---
--- Indexes for table `project`
---
-ALTER TABLE `project`
-  ADD PRIMARY KEY (`ProjectID`),
-  ADD KEY `UserID` (`UserID`),
-  ADD KEY `FK4ow2o8mfch91jnyu44scyuj8h` (`showcase_id`),
-  ADD KEY `FKo06v2e9kuapcugnyhttqa1vpt` (`user_id`);
-
---
--- Indexes for table `project_note`
---
-ALTER TABLE `project_note`
-  ADD PRIMARY KEY (`NoteID`),
-  ADD KEY `FKt6qexvv3mqyot7gpse2hxrbkv` (`ProjectID`);
-
---
--- Indexes for table `showcase`
---
-ALTER TABLE `showcase`
-  ADD PRIMARY KEY (`ShowcaseId`);
-
---
--- Indexes for table `showcaseproject`
---
-ALTER TABLE `showcaseproject`
-  ADD PRIMARY KEY (`ShowcaseProjectID`),
-  ADD KEY `ShowcaseID` (`ShowcaseID`),
-  ADD KEY `ProjectID` (`ProjectId`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`userid`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `employer`
---
-ALTER TABLE `employer`
-  MODIFY `EmployerID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `project`
---
-ALTER TABLE `project`
-  MODIFY `ProjectID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
--- AUTO_INCREMENT for table `project_note`
---
-ALTER TABLE `project_note`
-  MODIFY `NoteID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT for table `showcase`
---
-ALTER TABLE `showcase`
-  MODIFY `ShowcaseId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
--- AUTO_INCREMENT for table `showcaseproject`
---
-ALTER TABLE `showcaseproject`
-  MODIFY `ShowcaseProjectID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- Constraints for dumped tables
