@@ -30,7 +30,6 @@ public class EmployerProjectService {
     public void saveProject(Long projectId, Long employerId) {
         Project project = projectRepo.findById(projectId).orElseThrow();
 
-        // Prevent duplicate save rows
         boolean alreadySaved = noteRepo
                 .findByUserIdAndProject_ProjectId(employerId, projectId)
                 .stream()
@@ -66,9 +65,6 @@ public class EmployerProjectService {
         noteRepo.save(note);
     }
 
-    // ----------------------------
-    //  NEW: Filter + group correctly
-    // ----------------------------
     public List<ProjectNote> getUniqueSavedProjects(Long employerId) {
 
         List<ProjectNote> all = noteRepo.findByUserId(employerId).stream()
@@ -96,7 +92,6 @@ public class EmployerProjectService {
     public void deleteNote(Long projectId, Long employerId) {
 
 
-        // Find the note row for this employer & project
         List<ProjectNote> notes =
                 noteRepo.findByUserIdAndProject_ProjectId(employerId, projectId);
 
