@@ -80,7 +80,7 @@ services:
     hostname: proxy
 
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - "/var/log/nginx:/var/log/nginx"
     depends_on:
