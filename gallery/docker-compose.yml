@@ -1,50 +1,97 @@
-version: "3.9"
-
 services:
+  mysql:
+    #  build:
+    #    context: .
+    #    dockerfile: ./Docker/db/Dockerfile
+    image: mysql:8.0
+    container_name: 501-mysql
+    hostname: db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_DATABASE: ${DB_NAME:-idm3project2024}
+      MYSQL_USER: ${DB_USERNAME:-gallery}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-root}
+    ports:
+      - "${DB_PORT:-3309}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - "./Docker/db:/docker-entrypoint-initdb.d"
+    networks:
+      - 501-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   app:
     build:
       context: .
-      dockerfile: docker/app/Dockerfile
-    container_name: gallery_app
+      dockerfile: ./Docker/app/Dockerfile
+    container_name: 501-app
+    hostname: app
+    restart: unless-stopped
     depends_on:
-      - db
+      mysql:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/idm3project2024
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD:
-    networks:
-      - backend
-
-
-  db:
-    build:
-      context: .
-      dockerfile: docker/db/Dockerfile
-    container_name: gallery_db
-    environment:
-      MYSQL_DATABASE: idm3project2024
-      MYSQL_ROOT_PASSWORD: ""
-    volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - backend
-
-
-  proxy:
-    build:
-      context: .
-      dockerfile: docker/proxy/Dockerfile
-    container_name: gallery_proxy
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: gallery-mysql
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-idm3project2024}
+      DB_USERNAME: ${DB_USERNAME:-gallery}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      JWT_SECRET: ${JWT_SECRET:-docker-secret-key-change-this-minimum-256-bits-required}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
     ports:
-      - "80:80"
+      - "${SERVER_PORT:-8083}:8080"
+    networks:
+      - 501-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Database Management Service (phpMyAdmin)
+  phpmyadmin:
+    container_name: 501-phpmyadmin
+    hostname: phpmyadmin
+    networks:
+      - 501-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - '8889:80'
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: "root"
+
+  nginx-proxy:
+    build:
+      context: .
+      dockerfile: ./Docker/proxy/Dockerfile
+    container_name: 501-proxy
+    hostname: proxy
+
+    ports:
+      - "82:80"
+    volumes:
+      - "/var/log/nginx:/var/log/nginx"
     depends_on:
       - app
     networks:
-      - backend
-
-volumes:
-  db_data:
+      - 501-network
 
 networks:
-  backend:
+  501-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
