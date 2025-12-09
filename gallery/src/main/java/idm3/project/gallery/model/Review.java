@@ -26,8 +26,6 @@ public class Review {
     @JoinColumn(name = "EmployerID", nullable = false)
     private Employer employer;
 
-
-
     public void setComment(String comment) {
         this.comment = comment;
     }

@@ -49,7 +49,6 @@ public class AdminLoginController {
         if (admin != null) {
             return "redirect:/adminlogin";
         }
-
         return "redirect:/login";
     }
 }

@@ -97,15 +97,13 @@ public class EmployerProjectService {
 
         for (ProjectNote note : notes) {
 
-            // Only delete actual notes, not the saved-project row
             if (note.getNoteText() != null && !note.getNoteText().isBlank()) {
-                note.setNoteText(null); // Remove note text
+                note.setNoteText(null);
             }
         }
 
         noteRepo.saveAll(notes);
     }
-
 
     public List<ProjectNote> getAllNotesForEmployer(Long employerId) {
         return noteRepo.findByUserId(employerId);
@@ -128,5 +126,4 @@ public class EmployerProjectService {
                 )
                 .toList();
     }
-
 }

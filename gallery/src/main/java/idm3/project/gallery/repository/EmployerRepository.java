@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface EmployerRepository extends JpaRepository<Employer, Long> {
 
-
     List<Employer> findByEmployerNameContainingIgnoreCaseOrEmployerDescriptionContainingIgnoreCase(
             String employerName,
             String employerDescription
