@@ -104,7 +104,6 @@ public class EmployerService {
             throw new Exception("File is empty");
         }
 
-
         String uploadDir = "src/main/resources/static/images/projects/";
         String thumbnailDir = "src/main/resources/static/images/projects/thumbnail/";
 
@@ -121,9 +120,6 @@ public class EmployerService {
         File thumbFile = new File(thumbnailDir + "thumb_" + filename);
         thumbnailService.generateThumbnail(saveFile, thumbFile);
     }
-
-
-
 }
 
 

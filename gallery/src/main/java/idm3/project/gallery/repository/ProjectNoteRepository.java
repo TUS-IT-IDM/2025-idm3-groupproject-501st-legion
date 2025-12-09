@@ -8,12 +8,9 @@ import java.util.List;
 @Repository
 public interface ProjectNoteRepository extends JpaRepository<ProjectNote, Long> {
 
-
     List<ProjectNote> findByUserId(Long userId);
 
-
     List<ProjectNote> findByUserIdAndProject_ProjectId(Long userId, Long projectId);
-
 
     List<ProjectNote> findByUserIdOrderByCreatedAtDesc(Long userId);
 }
