@@ -1,41 +1,237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <link rel="stylesheet" type="text/css" href="lcstyle.css">
-  
-  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TUS Horizons – Student Gallery</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/lcstyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<!-- Main content section -->
 <body>
-  <header class="header">
-    <a href="#" class="logo"> <img src="image/LogoComputer.png" alt="Company Logo" style="height: 100px; object-fit: contain;"></a>
-   
-    <nav class="nav-items">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-      <a href="#">Register</a>
-      <a href="#" style="color: rgb(0, 0, 0);">Sign-In</a>
-      
-        
-    </header>
-    <main>
-       <h1>Maria Silva Souza</h1>
-    </main>
-    <footer>
-        <p>&copy; 2025 IDM3 Group Project</p>
-    </footer>
+
+<header class="header">
+    <a th:href="@{/MainGallery} " class="logo">
+        <img th:src="@{/assets/images/logo/LogoComputer.png}"
+             src="/assets/images/logo/LogoComputer.png"
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;">
+    </a>
+
+    <nav class="nav-items"
+         th:with="employer=${session.employerUser},
+                  student=${session.studentUser},
+                  admin=${session.adminUser}">
+
+        <a th:href="@{/MainGallery}">Home</a>
+        <a th:href="@{/showcases}">Showcases</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/faq}">FAQ</a>
+
+        <a th:if="${admin == null and employer == null and student == null}" th:href="@{/register}">Register</a>
+        <a th:if="${admin == null and employer == null and student == null}" th:href="@{/login}">Sign-In</a>
+
+        <a th:if="${student != null}" th:href="@{/project}">Dashboard</a>
+
+        <a th:if="${employer != null}" th:href="@{/employer}">Project Dashboard</a>
+        <a th:if="${employer != null}" th:href="@{/employer/notes}">Notes</a>
+        <a th:if="${employer != null}" th:href="@{/employer/profile}">Profile</a>
+
+        <a th:if="${admin != null}" th:href="@{/showcases}">Admin Dashboard</a>
+
+        <a th:if="${admin != null or employer != null or student != null}" th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+
+<div id="showcaseCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top:20px;">
+
+    <div class="carousel-indicators">
+        <button th:each="showcase, iStat : ${AllLiveShowcases}"
+                type="button"
+                data-bs-target="#showcaseCarousel"
+                th:data-bs-slide-to="${iStat.index}"
+                th:classappend="${iStat.first} ? 'active' : ''">
+        </button>
+    </div>
+
+    <div class="carousel-inner">
+        <div th:each="showcase, iStat : ${AllLiveShowcases}"
+             th:class="${iStat.first} ? 'carousel-item active' : 'carousel-item'">
+
+            <img th:src="@{${showcase.Image}}"
+                 alt="Showcase Banner"
+                 class="d-block w-100"
+                 style="height:420px;object-fit:cover;">
+
+            <div class="carousel-caption">
+                <h2 style="font-weight:700;" th:text="${showcase.name}"></h2>
+
+                <a th:href="@{'/showcases/' + ${showcase.showcaseId}}"
+                   class="btn-orange-primary" style="text-decoration: none">
+                    Browse Showcase
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#showcaseCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#showcaseCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<div class="container mt-5 " style="margin-bottom: 70px;">
+    <h2 class="text-center mb-3" style="font-weight:700;color:#1C1C2E;font-size:2.5rem;">Welcome to Horizons</h2>
+    <p class="text-center" style="max-width: 800px; margin: 0 auto;">
+        Horizons is your gateway to creativity, innovation, and emerging talent.
+        Our platform brings together students, employers, and educators to showcase
+        exceptional projects, discover new opportunities, and build meaningful
+        connections within the tech and creative industries.
+    </p>
+</div>
+
+<div class="container mt-5 text-center">
+    <div class="row">
+
+        <div class="col-md-4 mb-4">
+            <i class="fas fa-graduation-cap" style="font-size:2.2rem;color:#1C1C2E;"></i>
+            <h4 style="margin-top:10px;">Student Work</h4>
+            <p>Explore projects across animation, software, design, and immersive media.</p>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <i class="fas fa-briefcase" style="font-size:2.2rem;color:#1C1C2E;"></i>
+            <h4 style="margin-top:10px;">Industry Ready</h4>
+            <p>Employers can discover talent and save projects for later review.</p>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <i class="fas fa-users" style="font-size:2.2rem;color:#1C1C2E;"></i>
+            <h4 style="margin-top:10px;">Community</h4>
+            <p>Students, lecturers, and industry professionals together in one space.</p>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-5"style="margin-bottom: 70px;">
+    <h3 class="text-left mb-3">Showcasing Student Talent</h3>
+    <p>
+        Each project featured on Horizons reflects the dedication, innovation,
+        and technical ability of our students. From software prototypes and design portfolios
+        to engineering builds and multimedia creations, our showcases highlight the wide range
+        of skills developed across TUS programmes.
+    </p>
+</div>
+
+
+<div class="container mt-4">
+    <h3 class="text-left mb-4">Featured Projects</h3>
+
+    <div class="project-grid">
+        <div class="project-card"
+             th:each="project, stat : ${AllProjectsRecentFirst}"
+             th:if="${stat.index < 4}">
+
+            <img th:src="@{'/assets/images/projects/thumbnail/' + ${project.projectHeroImage}}">
+
+            <h4 th:text="${project.projectName}"></h4>
+            <p th:text="${project.projectDescriptionSummary}"></p>
+
+            <div class="btn-wrapper">
+                <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
+                    <i class="fa fa-eye" style="margin-right: 6px;"></i> View
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <h3 class="text-left mb-4">Recently Added</h3>
+
+    <div class="project-grid">
+        <div class="project-card"
+             th:each="project, stat : ${AllProjectsRecentFirst}"
+             th:if="${stat.index >= 4 and stat.index < 8}">
+
+            <img th:src="@{'/assets/images/projects/thumbnail/' + ${project.projectHeroImage}}">
+
+            <h4 th:text="${project.projectName}"></h4>
+            <p th:text="${project.projectDescriptionSummary}"></p>
+
+            <div class="btn-wrapper">
+                <a th:href="@{'/project/view/' + ${project.projectId}}" class="btn-view">
+                    <i class="fa fa-eye" style="margin-right: 6px;"></i> View
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5 pt-5">
+    <h3 class="text-center mb-4">What People Say</h3>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="testimonial-card p-3">
+                <p>"This platform helped me land my first tech internship!"</p>
+                <h5>- Jane Doe, Student</h5>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="testimonial-card p-3">
+                <p>"I found talented students for our startup projects."</p>
+                <h5>- John Smith, Employer</h5>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="testimonial-card p-3">
+                <p>"A great way to showcase creativity and skills."</p>
+                <h5>- Mary Brown, Lecturer</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-left">
+        <a th:href="@{/MainGallery} " class="logo">
+        <img th:src="@{/assets/images/logo/LogoComputer.png}"
+             src="/assets/images/logo/LogoComputer.png"
+             alt="Company Logo" class="logo-img" style="width:200px;height:100px;" />
+        </a>
+        <div class="copy">© 2025 Horizons</div>
+    </div>
+
+    <div class="footer-center">
+        <div class="links">
+            <span>More Info</span>
+            <a th:href="@{/MainGallery}">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+            <a th:href="@{/adminlogin}" href="/adminlogin.html" class="admin-signin">Admin Sign-In</a>
+        </div>
+    </div>
+
+    <div class="footer-right">
+        <div class="links">
+            <span>Social Links</span>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+
+</footer>
 
 </body>
-
 </html>
